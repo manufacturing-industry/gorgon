@@ -2,6 +2,10 @@
 .idea/
 build/
 
+# Files
+src/config/config.js
+src/config/env.js
+
 # Patterns
 *-compiled*
 
