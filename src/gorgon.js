@@ -13,7 +13,6 @@
 import {GorgonConfig} from "config/config"
 import {GorgonEnv} from "config/env"
 
-
 /**
  * The Gorgon main class
  */
@@ -36,6 +35,5 @@ class Gorgon {
 /*
  * Run Gorgon Server
  */
-
 var GorgonServer = new Gorgon();
 GorgonServer.initServer();

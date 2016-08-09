@@ -16,7 +16,7 @@ export class GorgonConfig
     {
         this.data = {
             name: 'Gorgon Server',
-            serverVersion: '0.0.1'
+            version: '0.0.1'
         };
 
         this.load = {
