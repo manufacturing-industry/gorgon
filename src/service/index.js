@@ -6,3 +6,9 @@
  * @license MIT
  * @url https://github.com/manufacturing-industry
  */
+
+export class GorgonServiceRouter {
+    construct() {
+
+    }
+}
