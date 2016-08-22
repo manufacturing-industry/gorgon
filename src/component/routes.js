@@ -65,18 +65,3 @@ export class Routes {
         return false;
     }
 }
-
-export class RouteItem
-{
-    construct(service, method, commandCallback)
-    {
-        this.service = service;
-        this.method = method;
-        this.command = commandCallback;
-    }
-
-    call(payload)
-    {
-        return this.command(...payload);
-    }
-}
