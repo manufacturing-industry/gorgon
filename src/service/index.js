@@ -9,7 +9,7 @@
 import {Routes} from '../component/routes'
 
 export class GorgonServiceRouter extends Routes {
-    construct(service, command) {
+    construct(service) {
         this.containers = [];
         this.name = "Gorgon Service Router";
         this.type = "Router";
