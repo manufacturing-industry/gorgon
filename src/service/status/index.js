@@ -7,9 +7,13 @@
  * @url https://github.com/manufacturing-industry
  */
 
+import {Router} from '../../component/routes'
+import {GorgonService} from '../index';
 
-export class StatusService {
+export class StatusService extends GorgonService {
     construct() {
-
+        super('Status');
+        console.log('Testing status service');
+        console.log(JSON.stringify(this));
     }
 }
