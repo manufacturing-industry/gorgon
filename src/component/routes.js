@@ -7,63 +7,72 @@
  * @url https://github.com/manufacturing-industry
  */
 
-import _ from 'lodash'
+import _ from 'lodash';
 
 export class Routes {
-    construct() {
+    construct(serviceName) {
+        this.service = serviceName;
+        this.inboundTypes = ['rest', 'socket', 'http', 'https', 'webSocket', 'api'];
         this.routes = [];
-        this.routeMap = [];
-        this.serviceMap = [];
+        this.routeCallbacks = [];
+        this.permissionMap = [];
     }
 
-    addServiceContainer(service)
+    add(inboundTypes, method, callback)
     {
-        if (service.routes == null || service.routes == '' && service.routes instanceof Array)
-        var routeTable = new RouteItemFactory(service.routes);
-        routeTable.forEach(function (value) {
-            let routePath = value.parent == null || value.parent == '' ? value.service : value.parent + '/' + value.service;
-            this.routes.push(value);
-            this.routeMap.push(routePath);
-            let pos = this.routeMap.length - 1;
-            this.serviceMap[value.service].push(pos);
+        this.routes.push(method);
+        this.routeCallbacks(callback);
+        var pos = this.routeCallbacks.length - 1;
+
+        inboundTypes.forEach(function(value){
+            if (this.inboundTypes.indexOf(value) > -1) this.permissionMap[value].push(pos);
+            else console.log('ERROR - Invalid Permission Encountered in Service: [' + this.service + '] Method: [' + method + ']');
         });
     }
 
-    removeServiceContainer(serviceName)
+    remove(method)
     {
-        let pos = this.serviceMap.indexOf(serviceName);
+        let pos = this.routes.indexOf(method);
         if (pos > -1)
         {
-            this.routeMap.forEach(function(value){
-                this.routes[value] = null;
-                this.routeMap[value] = null;
+            this.routeCallbacks[pos] = null;
+            this.routes[pos] = null;
+
+            this.inboundTypes.forEach(function(value)
+            {
+                if (this.permissionMap[value] != undefined && this.permissionMap[value] instanceof Array)
+                {
+                    let keyPos = this.permissionMap[value].indexOf(pos);
+                    if (keyPos > -1) this.permissionMap[value].splice(keyPos, 1);
+                }
             });
             return true;
         }
         return false;
     }
-}
 
-export class RouteItemFactory
-{
-    construct(routes)
+    route(inboundType, method, payload)
     {
-        var routeTable = [];
-        routes.forEach(function (value) {
-            routeTable.push(new RouteItem(value.service, value.parent, value.command))
-        });
-
-        return routeTable;
+        let pos = this.routes.indexOf(method);
+        if (pos > -1)
+        {
+            if (this.permissionMap[inboundType] != undefined && this.permissionMap[inboundType].length > 0 && this.permissionMap[inboundType].indexOf(pos) > -1)
+            {
+                //callback exists for method
+                return this.routeCallbacks[pos](method, inboundType, ...payload);
+            }
+        }
+        return false;
     }
 }
 
 export class RouteItem
 {
-    construct(service, parent, command)
+    construct(service, method, commandCallback)
     {
-        this.service = null;
-        this.parent = null;
-        this.command = null;
+        this.service = service;
+        this.method = method;
+        this.command = commandCallback;
     }
 
     call(payload)
