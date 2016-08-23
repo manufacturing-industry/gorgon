@@ -9,7 +9,7 @@
 
 
 export class GorgonComponentRouter {
-    construct() {
+    constructor() {
 
     }
 }

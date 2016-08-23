@@ -10,8 +10,10 @@
 /*
  * Imports
  */
-import {GorgonConfig} from "config/config"
-import {GorgonEnv} from "config/env"
+import {GorgonConfig} from "config/config";
+import {GorgonEnv} from "config/env";
+import {GorgonContainerServiceLoader} from 'service/index';
+import {GorgonContainerService} from 'service/index';
 
 /**
  * The Gorgon main class
@@ -27,10 +29,12 @@ class Gorgon {
 
     initServer()
     {
-        console.log('Start Server');
+        this.GorgonEnv.service.forEach(function(value){
+            console.log('Load Service');
+            console.log(value.namespace);
+        });
     }
 }
-
 
 /*
  * Run Gorgon Server

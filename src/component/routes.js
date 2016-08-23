@@ -10,7 +10,7 @@
 import _ from 'lodash';
 
 export class Routes {
-    construct(serviceName) {
+    constructor(serviceName) {
         this.service = serviceName;
         this.inboundTypes = ['rest', 'socket', 'http', 'https', 'webSocket', 'api'];
         this.routes = [];

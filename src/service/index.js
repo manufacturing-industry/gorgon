@@ -6,10 +6,11 @@
  * @license MIT
  * @url https://github.com/manufacturing-industry
  */
-import {Routes} from '../component/routes'
+    
+
 
 export class GorgonContainerService {
-    construct() {
+    constructor() {
         this.containers = [];
         this.containerMap = [];
         this.name = "Gorgon Container Service";
@@ -48,10 +49,11 @@ export class GorgonContainerService {
 
 export class GorgonService
 {
-    construct(name)
+    constructor()
     {
         this.name = name;
         this.type = 'Service';
-        this.router = new Rooutes(name);
+        this.router = null;
+        this.ports = [];
     }
 }

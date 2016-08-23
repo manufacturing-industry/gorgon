@@ -10,10 +10,10 @@
 import {Router} from '../../component/routes'
 import {GorgonService} from '../index';
 
-export class StatusService extends GorgonService {
-    construct() {
-        super('Status');
-        console.log('Testing status service');
-        console.log(JSON.stringify(this));
+class StatusService extends GorgonService {
+    constructor() {
+
     }
 }
+
+export default StatusService;
