@@ -7,11 +7,70 @@
  * @url https://github.com/manufacturing-industry
  */
 
-import {Router} from '../../component/routes'
+import {Routes} from '../../component/routes'
 import {GorgonService} from '../index';
 
 class StatusService extends GorgonService {
-    constructor() {
+    constructor()
+    {
+        super();
+        this.name = 'Status';
+        this.description = 'Provides service status';
+        this.type = 'Service';
+        this.router = new Routes(this.name);
+        this.ports = [2600];
+        this.permissions = ['internal'];
+        this.router.import(this.routes());
+    }
+
+    routes()
+    {
+        return {
+            'rest':
+            [
+                {
+                    method: '/StatusServiceRequest',
+                    callback: 'StatusServiceRequest'
+                },
+            ],
+            'socket': null,
+            'http':
+            [
+                {
+                    method: '/',
+                    callback: 'Index'
+                },
+                {
+                    method: '/services',
+                    callback: 'Services'
+                },
+            ],
+            'https': 'HTTP',
+            'webSocket':
+            [
+                {
+                    command: 'StatusServiceRequest',
+                    callback: 'StatusServiceRequest'
+                }
+            ],
+            'api':
+            [
+                {
+                    command: 'StatusServiceRequest',
+                    callback: 'StatusServiceRequest'
+                }
+            ],
+        };
+
+    }
+
+    page_Index()
+    {
+
+    }
+
+    page_Services()
+    {
 
     }
 }

@@ -51,6 +51,11 @@ export class Routes {
         return false;
     }
 
+    import(routes)
+    {
+
+    }
+
     route(inboundType, method, payload)
     {
         let pos = this.routes.indexOf(method);

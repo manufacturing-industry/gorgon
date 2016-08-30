@@ -12,7 +12,6 @@
  */
 import {GorgonConfig} from "config/config";
 import {GorgonEnv} from "config/env";
-import {GorgonContainerServiceLoader} from 'service/index';
 import {GorgonContainerService} from 'service/index';
 
 /**
@@ -23,8 +22,7 @@ class Gorgon {
     {
         this.GorgonConfig = new GorgonConfig();
         this.GorgonEnv = new GorgonEnv();
-        console.log(this.GorgonConfig);
-        console.log(this.GorgonEnv);
+        this.GorgonContainerService = new GorgonContainerService();
     }
 
     initServer()
@@ -32,7 +30,9 @@ class Gorgon {
         this.GorgonEnv.service.forEach(function(value){
             console.log('Load Service');
             console.log(value.namespace);
-        });
+            this.GorgonContainerService.add(value.service);
+            console.log(value.namespace + ' was added as a service');
+        }, this);
     }
 }
 

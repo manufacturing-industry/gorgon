@@ -6,8 +6,6 @@
  * @license MIT
  * @url https://github.com/manufacturing-industry
  */
-    
-
 
 export class GorgonContainerService {
     constructor() {
@@ -51,9 +49,11 @@ export class GorgonService
 {
     constructor()
     {
-        this.name = name;
+        this.name = '';
+        this.description = '';
         this.type = 'Service';
         this.router = null;
         this.ports = [];
+        this.permissions = [];
     }
 }
