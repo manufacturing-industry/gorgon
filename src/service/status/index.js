@@ -26,41 +26,18 @@ class StatusService extends GorgonService {
     routes()
     {
         return {
-            'rest':
-            [
-                {
-                    method: '/StatusServiceRequest',
-                    callback: 'StatusServiceRequest'
-                },
-            ],
-            'socket': null,
-            'http':
-            [
-                {
-                    method: '/',
-                    callback: 'Index'
-                },
-                {
-                    method: '/services',
-                    callback: 'Services'
-                },
-            ],
-            'https': 'HTTP',
-            'webSocket':
-            [
-                {
-                    command: 'StatusServiceRequest',
-                    callback: 'StatusServiceRequest'
-                }
-            ],
-            'api':
-            [
-                {
-                    command: 'StatusServiceRequest',
-                    callback: 'StatusServiceRequest'
-                }
-            ],
+            'ServiceRequest':
+            {
+                inboundTypes: ['rest', 'socket', 'http', 'webSocket', 'api'],
+                method: '/StatusServiceRequest',
+                callback: this.serviceRequest()
+            }
         };
+
+    }
+
+    serviceRequest()
+    {
 
     }
 

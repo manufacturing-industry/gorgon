@@ -7,8 +7,6 @@
  * @url https://github.com/manufacturing-industry
  */
 
-import _ from 'lodash';
-
 export class Routes {
     constructor(serviceName) {
         this.service = serviceName;
@@ -53,7 +51,15 @@ export class Routes {
 
     import(routes)
     {
-
+        if (routes instanceof Array)
+        {
+            for (var key in routes) {
+                if (routes.hasOwnProperty(key)) {
+                    this.add(routes[key]['inboundTypes'], routes[key]['method'], routes[key]['callback']);
+                }
+            }
+        }
+        return false;
     }
 
     route(inboundType, method, payload)
