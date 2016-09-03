@@ -1,8 +1,9 @@
 #Gorgon
-A highly scriptable, configurable, and network capable application and service container server for Node JS
+An ES6 highly scriptable, configurable, and network capable service container server for Node JS
 
 ##System Requirements
 * Node JS
+* Extra: System Build Tools (For Electron Apps)
 
 ##Installation
 - Clone this repository
@@ -11,8 +12,14 @@ A highly scriptable, configurable, and network capable application and service c
 - Build the project: npm run build
 - Run gorgon: npm run gorgon
 
+##Build & Run (For Development)
+- Build/Run Gorgon: npm run gorgon-build
+
 ##Current Features
 - NOTE: This is currently pre-alpha, we will update the documentation as the server becomes more stable and capable.
+- Routing
+- Service Containers
+- Status Service (Pre-Alpha)
 
 ###Planned Features
 - TCP/IP Socket Support
