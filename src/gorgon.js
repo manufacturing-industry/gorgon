@@ -15,16 +15,36 @@ import {GorgonEnv} from "config/env";
 import {GorgonContainerService} from 'service/index';
 
 /**
- * The Gorgon main class
+ * The Gorgon class
  */
 class Gorgon {
+    /**
+     * Constructs the class
+     */
     constructor()
     {
+        /**
+         * The gorgon config for the server
+         * @type {GorgonConfig}
+         */
         this.GorgonConfig = new GorgonConfig();
+
+        /**
+         * The gorgon environment for the server
+         * @type {GorgonEnv}
+         */
         this.GorgonEnv = new GorgonEnv();
+
+        /**
+         * The container service
+         * @type {GorgonContainerService}
+         */
         this.GorgonContainerService = new GorgonContainerService();
     }
 
+    /**
+     * Initializes the server and loads the configured services from the environment
+     */
     initServer()
     {
         this.GorgonEnv.service.forEach(function(value){
@@ -37,7 +57,7 @@ class Gorgon {
 }
 
 /*
- * Run Gorgon Server
+ * Run the Gorgon Server
  */
 var GorgonServer = new Gorgon();
 GorgonServer.initServer();

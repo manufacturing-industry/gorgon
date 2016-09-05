@@ -7,51 +7,72 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/**
+ * The network controls class
+ *
+ * @note Creates and maps the network components for services
+ */
 export class Network {
+    /**
+     * Constructs the class
+     */
     constructor()
     {
         this.services = [];
         this.serviceMap = [];
     }
 
+    /**
+     * Adds a service to the network layer
+     *
+     * @param {object} service The service to be added
+     * @return {boolean} Returns true on completion and false on failure
+     */
     addService(service)
     {
 
     }
 
-    removeService(service)
+    /**
+     * Removes the services network components
+     *
+     * @param {string} serviceNamespace The namespace of the service to be removed
+     * @return {boolean} Returns true on completion and false on failure
+     */
+    removeService(serviceNamespace)
     {
 
     }
 
-    add(service, type, label, port)
+    /**
+     * Adds a service network component
+     *
+     * @param {string} serviceNamespace The service namespace for the component
+     * @param {string} type The network component type
+     * @param {string} label The label for the component
+     * @param {string} port The optional port for the network component
+     * @return {boolean} Returns true on completion and false on failure
+     */
+    add(serviceNamespace, type, label, port)
     {
 
     }
 
-    remove(service, type, label)
+    /**
+     * Removes a service network component
+     *
+     * @param {string} serviceNamespace The service namespace for the component
+     * @param {string} type The network component type
+     * @param {string} label The label for the component
+     * @return {boolean} Returns true on completion and false on failure
+     */
+    remove(serviceNamespace, type, label)
     {
 
     }
-
-    call()
-    {
-
-    }
-
-    __webSocket()
-    {
-
-    }
-
-    __webServer()
-    {
-
-    }
-
 }
 
-class NetworkConnectionFactory
+class NetworkComponentFactory
 {
     constructor(type, label, port, service)
     {

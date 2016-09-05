@@ -8,10 +8,9 @@
  */
 
 /**
- * The Mongo Storage Driver
+ * The Gorgon Storage Driver Base Class
  */
-export class MongoStorageDriver
-{
+export class GorgonStorage {
     /**
      * Constructs the class
      */
@@ -22,20 +21,27 @@ export class MongoStorageDriver
          *
          * @type {string}
          */
-        this.name = 'Mongo Storage Driver';
+        this.name = null;
 
         /**
          * The namespace for the storage driver
          *
          * @type {string}
          */
-        this.namespace = 'MONGO_STORAGE_DRIVER';
+        this.namespace = null;
+
+        /**
+         * The component type
+         *
+         * @type {string}
+         */
+        this.type = 'storage-driver';
 
         /**
          * The version for the storage driver
          *
          * @type {string}
          */
-        this.version = '0.0.1';
+        this.version = null;
     }
 }

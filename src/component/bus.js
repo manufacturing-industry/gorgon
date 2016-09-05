@@ -7,7 +7,20 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/**
+ * The service event message bus class
+ *
+ * @note Allows for topic subscription for service events
+ */
 export class Bus {
-
+    /**
+     * Constructs the class
+     */
+    constructor()
+    {
+        this.topicMap = [];
+        this.subscribers = [];
+        this.subscriberMap = [];
+    }
 
 }

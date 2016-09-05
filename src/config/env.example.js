@@ -12,8 +12,15 @@
  */
 export class GorgonEnv
 {
+    /**
+     * Constructs the class
+     */
     constructor()
     {
+        /**
+         * An array of objects that contain service configurations to be loaded by this instance of the server
+         * @type {object[]}
+         */
         this.service = [
             { sid: 0, name: 'Status', namespace: 'status', enable: true }
         ];

@@ -8,13 +8,15 @@
  */
 
 /**
- * The Gorgon config class
+ * The Gorgon status service config class
  */
 export class StatusServiceConfig
 {
+    /**
+     * Constructs the class
+     */
     constructor()
     {
-        this.name = 'Status Service';
-        this.version = '0.0.1';
+
     }
 }
