@@ -8,8 +8,8 @@
  */
 
 export class Routes {
-    constructor(serviceName) {
-        this.service = serviceName;
+    constructor(serviceNamespace) {
+        this.service = serviceNamespace;
         this.inboundTypes = ['rest', 'socket', 'http', 'https', 'webSocket', 'api'];
         this.routes = [];
         this.routeCallbacks = [];
