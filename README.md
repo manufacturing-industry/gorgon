@@ -17,15 +17,32 @@ An ES6 highly scriptable, configurable, and network capable service container se
 
 ##Current Features
 - NOTE: This is currently pre-alpha, we will update the documentation as the server becomes more stable and capable.
-- Routing
-- Service Containers
-- Status Service (Pre-Alpha)
 
-###Planned Features
-- TCP/IP Socket Support
-- Web Socket Support
-- HTTP/1.1 Support
-- HTTP/2.0 Support
+Feature  | Status
+------------- | -------------
+Config  | Alpha
+Sessions | Development
+Routing  | Alpha
+Service Containers | Alpha
+Network Components  | Development
+Storage  | Development
+Status Service | Development
+
+###Planned Network Support
+Feature  | Status
+------------- | -------------
+Web Sockets | Development
+HTTP/1.1 | Development
+HTTP/2.0 | Development
+TCP/IP Sockets | Development
+Streams | Development
+
+##Planned API Integrations
+Feature  | Status
+------------- | -------------
+Mongo | Development
+MySQL | Development
+AWS | Development
 
 ##Have a contribution?
 Please feel free to fork this repository and submit pull requests.
