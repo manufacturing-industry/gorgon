@@ -80,11 +80,27 @@ export class GorgonService
 {
     constructor()
     {
-        this.name = '';
-        this.description = '';
+        this.name = null;
+        this.description = null;
         this.type = 'Service';
         this.router = null;
+        this.inboundTypes = [];
         this.ports = [];
         this.permissions = [];
+        this.networking = null;
+    }
+
+    /**
+     * Updates the networking property via the
+     * @private
+     */
+    _setNetworking()
+    {
+        if (this.inboundTypes instanceof Array && this.ports instanceof Array && this.inboundTypes.length == this.ports.length)
+        {
+
+        } else {
+            console.warn('GorgonService:_setNetworking - Missing or invalid networking for service ' + this.name);
+        }
     }
 }

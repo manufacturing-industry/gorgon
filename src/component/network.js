@@ -20,6 +20,15 @@ export class Network {
     {
         this.services = [];
         this.serviceMap = [];
+        this.componentTypeMap = {
+            rest: [],
+            socket: [],
+            webSocket: [],
+            http: [],
+            api: []
+        };
+        this.portReservations = [];
+        this.activeServices = [];
     }
 
     /**
@@ -30,7 +39,24 @@ export class Network {
      */
     addService(service)
     {
+        if (activeServices.indexOf('service.namespace') == -1)
+        {
+            this.services.push(service);
+            this.serviceMap.push(service.namespace);
+            serviceId = this.serviceMap.length - 1;
 
+            /*
+             * Add networking components
+             */
+            if (service.networking instanceof Array)
+            {
+                service.networking.forEach(function(value){
+
+                }, this);
+
+            }
+        }
+        return false;
     }
 
     /**
@@ -50,11 +76,18 @@ export class Network {
      * @param {string} serviceNamespace The service namespace for the component
      * @param {string} type The network component type
      * @param {string} label The label for the component
-     * @param {string} port The optional port for the network component
+     * @param {string|null} port The optional port for the network component
      * @return {boolean} Returns true on completion and false on failure
      */
-    add(serviceNamespace, type, label, port)
+    add(serviceId, serviceNamespace, type, label, port)
     {
+        if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
+        {
+            this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+            this.serviceMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+        }
+        return false;
+
 
     }
 
@@ -72,7 +105,7 @@ export class Network {
     }
 }
 
-class NetworkComponentFactory
+class NetworkComponent
 {
     constructor(type, label, port, service)
     {

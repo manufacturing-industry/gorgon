@@ -13,6 +13,7 @@
 import {GorgonConfig} from "config/config";
 import {GorgonEnv} from "config/env";
 import {GorgonContainerService} from 'service/index';
+import {Logger} from 'component/log'
 
 /**
  * The Gorgon class
@@ -40,6 +41,12 @@ class Gorgon {
          * @type {GorgonContainerService}
          */
         this.GorgonContainerService = new GorgonContainerService();
+
+        /**
+         * The gorgon server logger
+         * @type {Logger}
+         */
+        this.Logger = new Logger();
     }
 
     /**
@@ -53,6 +60,8 @@ class Gorgon {
             this.GorgonContainerService.add(value.service);
             console.log(value.namespace + ' was added as a service');
         }, this);
+
+        this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully', ['test1', 'test2', {test1: 'test', test2: 'test2'}]);
     }
 }
 
