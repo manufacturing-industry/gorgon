@@ -47,6 +47,18 @@ class Gorgon {
          * @type {Logger}
          */
         this.Logger = new Logger();
+
+        /**
+         * The first style of CLI separator
+         * @type {string}
+         */
+        this.separator1 = '================================================';
+
+        /**
+         * The second style of CLI separator
+         * @type {string}
+         */
+        this.separator2 = '------------------------------------------------';
     }
 
     /**
@@ -54,14 +66,40 @@ class Gorgon {
      */
     initServer()
     {
+        this._serverStartup();
+        console.log('Loading Services');
+        console.log(this.separator2);
         this.GorgonEnv.service.forEach(function(value){
-            console.log('Load Service');
-            console.log(value.namespace);
             this.GorgonContainerService.add(value.service);
-            console.log(value.namespace + ' was added as a service');
+            console.log(value.namespace + ' - [ Ok ]');
         }, this);
 
-        this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully', ['test1', 'test2', {test1: 'test', test2: 'test2'}]);
+        this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
+    }
+
+    /**
+     * The CLI server startup message
+     *
+     * @private
+     */
+    _serverStartup()
+    {
+        console.log('Gorgon Server - v' + this.GorgonConfig.data.version);
+        console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
+        console.log('Project: https://github.com/manufacturing-industry/gorgon');
+        this._motd();
+    }
+
+    /**
+     * The server message of the day display
+     *
+     * @private
+     */
+    _motd()
+    {
+        console.log(this.separator1);
+        console.log(this.GorgonConfig.data.motd);
+        console.log(this.separator1);
     }
 }
 
