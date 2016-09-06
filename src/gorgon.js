@@ -15,6 +15,8 @@ import {GorgonEnv} from "config/env";
 import {GorgonContainerService} from 'service/index';
 import {Logger} from 'component/log'
 
+global.Logger = new Logger();
+
 /**
  * The Gorgon class
  */
@@ -46,7 +48,7 @@ class Gorgon {
          * The gorgon server logger
          * @type {Logger}
          */
-        this.Logger = new Logger();
+        this.Logger = global.Logger;
 
         /**
          * The first style of CLI separator
@@ -66,23 +68,26 @@ class Gorgon {
      */
     initServer()
     {
-        this._serverStartup();
+        this._bootstrap();
         console.log('Loading Services');
         console.log(this.separator2);
+        this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
+
         this.GorgonEnv.service.forEach(function(value){
             this.GorgonContainerService.add(value.service);
             console.log(value.namespace + ' - [ Ok ]');
+            this.Logger.log('Gorgon:initServer', 200, 'Loaded service namespace: ' + value.namespace);
         }, this);
 
-        this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
+        this.Logger.log('Gorgon:initServer', 200, 'Service Loading Completed');
     }
 
     /**
-     * The CLI server startup message
+     * The CLI server bootstrap
      *
      * @private
      */
-    _serverStartup()
+    _bootstrap()
     {
         console.log('Gorgon Server - v' + this.GorgonConfig.data.version);
         console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');

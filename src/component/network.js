@@ -7,8 +7,10 @@
  * @url https://github.com/manufacturing-industry
  */
 
+let instance = null;
+
 /**
- * The network controls class
+ * The network controls singleton class
  *
  * @note Creates and maps the network components for services
  */
@@ -18,17 +20,23 @@ export class Network {
      */
     constructor()
     {
-        this.services = [];
-        this.serviceMap = [];
-        this.componentTypeMap = {
-            rest: [],
-            socket: [],
-            webSocket: [],
-            http: [],
-            api: []
-        };
-        this.portReservations = [];
-        this.activeServices = [];
+        if(!instance)
+        {
+            this.services = [];
+            this.serviceMap = [];
+            this.components = [];
+            this.componentMap = [];
+            this.componentTypeMap = {
+                rest: [],
+                socket: [],
+                webSocket: [],
+                http: [],
+                api: []
+            };
+            this.portReservations = [];
+            this.activeServices = [];
+            instance = this;
+        } else return instance;
     }
 
     /**
@@ -39,20 +47,24 @@ export class Network {
      */
     addService(service)
     {
-        if (activeServices.indexOf('service.namespace') == -1)
+        if (this.activeServices.indexOf(service.namespace) == -1)
         {
             this.services.push(service);
             this.serviceMap.push(service.namespace);
-            serviceId = this.serviceMap.length - 1;
+            let serviceId = this.serviceMap.length - 1;
 
             /*
              * Add networking components
              */
             if (service.networking instanceof Array)
             {
-                service.networking.forEach(function(value){
-
-                }, this);
+                for(var i=0; i < service.networking.length; i++)
+                {
+                    /**
+                     * @todo RESUME HERE
+                     */
+                    this.add(serviceId, service.namespace, service.type, 'label', service.networking.port);
+                }
 
             }
         }
@@ -83,8 +95,19 @@ export class Network {
     {
         if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
         {
-            this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
-            this.serviceMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+            switch(type)
+            {
+                default:
+                    //error!
+                    break;
+            }
+
+
+            this.componentMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+            console.log('loadType');
+            console.log(type);
+            //this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+
         }
         return false;
 
@@ -126,3 +149,9 @@ class NetworkComponent
         delete this.attr[name];
     }
 }
+
+/*
+ * Exports
+ */
+var NetworkStack = new Network();
+export default NetworkStack;

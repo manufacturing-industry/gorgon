@@ -87,7 +87,7 @@ export class GorgonService
         this.inboundTypes = [];
         this.ports = [];
         this.permissions = [];
-        this.networking = null;
+        this.networking = [];
     }
 
     /**
@@ -98,7 +98,10 @@ export class GorgonService
     {
         if (this.inboundTypes instanceof Array && this.ports instanceof Array && this.inboundTypes.length == this.ports.length)
         {
-
+            for(var i = 0; i < this.inboundTypes.length; i++)
+            {
+                this.networking.push({ name: this.inboundTypes[i], port: this.ports[i] })
+            }
         } else {
             console.warn('GorgonService:_setNetworking - Missing or invalid networking for service ' + this.name);
         }

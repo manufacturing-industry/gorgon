@@ -13,6 +13,9 @@
 import {Routes} from '../../component/routes'
 import {GorgonService} from '../index';
 import {StatusServiceConfig} from 'config/config';
+import {Network} from '../../component/network'
+
+var NetworkStack = new Network();
 
 /**
  * The status service
@@ -87,10 +90,10 @@ class StatusService extends GorgonService {
          */
         this.permissions = ['internal'];
 
-        /*
-         * Imports the routers routes from the class
+        /**
+         * Binds the services routes and networking
          */
-        this.router.import(this.routes());
+        this.serviceBind();
     }
 
     /**
@@ -116,10 +119,41 @@ class StatusService extends GorgonService {
      *
      * @note Provides the service request for the server
      */
-    serviceRequest()
+    serviceRequest(request)
     {
 
     }
+
+    /**
+     * Binds the services routes and networking components
+     *
+     * @return {boolean} Returns true on completion
+     */
+    serviceBind()
+    {
+        /*
+         * Imports the routers routes from the class
+         */
+        this.router.import(this.routes());
+
+        /*
+         * Set the networking configuration for the class
+         */
+        this._setNetworking();
+
+        /*
+         * Add the service to the network
+         */
+        NetworkStack.addService(this);
+
+        return true;
+    }
+
+    serviceUnbind()
+    {
+        NetworkStack.removeService(this.namespace);
+    }
+
 }
 
 /*
