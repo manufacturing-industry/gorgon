@@ -24,6 +24,7 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 Feature  | Status
 ------------- | -------------
 Config  | Alpha
+Logger  | Beta
 Sessions | Development
 Routing  | Alpha
 Service Containers | Alpha
