@@ -16,6 +16,7 @@ if (env === 'build') {
 
 var config = {
     entry: __dirname + '/src/gorgon.js',
+    target: 'async-node',
     devtool: 'source-map',
     output: {
         path: __dirname + '/lib',
@@ -35,12 +36,16 @@ var config = {
                 test: /(\.jsx|\.js)$/,
                 loader: "eslint-loader",
                 exclude: /node_modules/
+            },
+            {
+                include: /\.json$/,
+                loaders: ["json-loader"]
             }
         ]
     },
     resolve: {
         root: path.resolve('./src'),
-        extensions: ['', '.js']
+        extensions: ['', '.json', '.jsx', '.js']
     },
     plugins: plugins
 };
