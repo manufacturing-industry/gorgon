@@ -64,7 +64,10 @@ export class Logger {
                 break;
         }
 
-        this.fs.appendFile('logs/' + filename, logItem.created.format() + ' ' + logItem.level + ' ' + logItem.location + ' [message=' + logItem.message + ']' + ' [values=' + logValues + ']' + os.EOL, 'utf8',  function (err) {
+        var logEntry = logItem.created.format() + ' ' + logItem.level + ' ' + logItem.location + ' [message=' + logItem.message + ']' + ' [values=' + logValues + ']' + os.EOL;
+
+        this.fs.appendFile('logs/' + filename, logEntry, 'utf8',  function (err)
+        {
             if (err) {
                 console.error(err);
                 return false;
@@ -72,7 +75,6 @@ export class Logger {
         });
         return true;
     }
-
 }
 
 /**
@@ -81,6 +83,12 @@ export class Logger {
 class Log {
     /**
      * Constructs the class
+     *
+     * @param {string} location The location the log originated from
+     * @param {number} level The level of the log (from levelKey)
+     * @param {string} message The message for the log
+     * @param {*} values The values to include with the log
+     * @param {string} type The type for the log
      */
     constructor(location, level, message, values, type)
     {
