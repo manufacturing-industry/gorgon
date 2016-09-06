@@ -23,11 +23,11 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 
 Feature  | Status
 ------------- | -------------
-Config  | Alpha
+Config  | Beta
 Logger  | Beta
 Sessions | Development
 Routing  | Alpha
-Service Containers | Alpha
+Service Containers | Beta
 Network Components  | Development
 Storage  | Development
 Status Service | Development
