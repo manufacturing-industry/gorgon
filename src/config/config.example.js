@@ -19,12 +19,24 @@ export class GorgonConfig
     {
         /**
          * The servers default config data
-         * @type {{name: string, version: string}}
+         * @type {{name: string, version: string, motd: string}}
          */
         this.data = {
             name: 'Gorgon Server',
             version: '0.0.1 Pre-Alpha',
             motd: 'This is the message of the day for the Gorgon Server'
+        };
+
+        /**
+         * The servers default storage config
+         *
+         * Contains the path pointers for base storage components.
+         *
+         * @note Paths must contain trailing slash
+         * @type {{logs: string}}
+         */
+        this.storage = {
+            logs: 'logs/'
         };
 
         /**

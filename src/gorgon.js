@@ -33,6 +33,13 @@ class Gorgon {
         this.GorgonConfig = new GorgonConfig();
 
         /**
+         * The gorgon server logger
+         * @type {Logger}
+         */
+        this.Logger = global.Logger;
+        this.Logger.log('Gorgon:initServer', 200, 'The Gorgon has been summoned - GORGON SERVER STARTING...');
+
+        /**
          * The gorgon environment for the server
          * @type {GorgonEnv}
          */
@@ -44,11 +51,6 @@ class Gorgon {
          */
         this.GorgonContainerService = new GorgonContainerService();
 
-        /**
-         * The gorgon server logger
-         * @type {Logger}
-         */
-        this.Logger = global.Logger;
 
         /**
          * The first style of CLI separator

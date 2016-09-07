@@ -63,7 +63,7 @@ export class Network {
                     /**
                      * @todo RESUME HERE
                      */
-                    this.add(serviceId, service.namespace, service.type, 'label', service.networking.port);
+                    this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
                 }
 
             }
@@ -85,6 +85,7 @@ export class Network {
     /**
      * Adds a service network component
      *
+     * @param {number} serviceId The serviceId for the service
      * @param {string} serviceNamespace The service namespace for the component
      * @param {string} type The network component type
      * @param {string} label The label for the component
@@ -98,16 +99,26 @@ export class Network {
             switch(type)
             {
                 default:
-                    //error!
+                    global.Logger.log('Network:add', 400, 'Unable to load component type of: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
+                    return false;
+                    break;
+                case 'rest':
+                    break;
+                case 'http':
+                    break;
+                case 'socket':
+                    break;
+                case 'webSocket':
+                    break;
+                case 'api':
                     break;
             }
-
 
             this.componentMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
             console.log('loadType');
             console.log(type);
             //this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
-
+            global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
         }
         return false;
 

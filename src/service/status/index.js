@@ -134,7 +134,7 @@ class StatusService extends GorgonService {
         /*
          * Imports the routers routes from the class
          */
-        this.router.import(this.routes());
+        this.router.importRoutes(this.routes());
 
         /*
          * Set the networking configuration for the class

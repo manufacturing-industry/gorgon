@@ -49,7 +49,7 @@ export class Routes {
         return false;
     }
 
-    import(routes)
+    importRoutes(routes)
     {
         if (routes instanceof Array)
         {

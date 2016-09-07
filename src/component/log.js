@@ -13,6 +13,7 @@
 import * as fs from 'fs';
 import moment from 'moment';
 import * as os from 'os';
+import {GorgonConfig} from '../config/config'
 import sanitize from 'sanitize-filename';
 
 /**
@@ -25,6 +26,7 @@ export class Logger {
     constructor()
     {
         this.fs = fs;
+        this.GorgonConfig = new GorgonConfig();
         this.sanitize = sanitize;
         this.topicMap = [];
         this.subscribers = [];
@@ -66,7 +68,11 @@ export class Logger {
 
         var logEntry = logItem.created.format() + ' ' + logItem.level + ' ' + logItem.location + ' [message=' + logItem.message + ']' + ' [values=' + logValues + ']' + os.EOL;
 
-        this.fs.appendFile('logs/' + filename, logEntry, 'utf8',  function (err)
+        if (!this.fs.existsSync(this.GorgonConfig.storage.logs)){
+            fs.mkdirSync(this.GorgonConfig.storage.logs);
+        }
+
+        this.fs.appendFile(this.GorgonConfig.storage.logs + filename, logEntry, 'utf8',  function (err)
         {
             if (err) {
                 console.error(err);
