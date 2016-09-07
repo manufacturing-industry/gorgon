@@ -8,6 +8,17 @@
  */
 
 let instance = null;
+import http from 'http';
+import SocketIO from 'socket.io';
+import compression from 'compression';
+import express from 'express';
+
+let app = express();
+let server = http.Server(app);
+let io = new SocketIO(server);
+
+app.use(compression({}));
+app.use(express['static'](__dirname + '/../client'));
 
 /**
  * The network controls singleton class
@@ -35,7 +46,14 @@ export class Network {
             };
             this.portReservations = [];
             this.activeServices = [];
+            this.wsExpress = express();
+            this.webSocketServer = http.Server(this.wsExpress);
+
+            //Configures compression for the http stack
+            //this.baseComponent.express.use(compression({}));
+
             instance = this;
+
         } else return instance;
     }
 
