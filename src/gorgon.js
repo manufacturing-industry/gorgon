@@ -71,6 +71,7 @@ class Gorgon {
     initServer()
     {
         this._bootstrap();
+        console.log(this.separator2);
         console.log('Loading Services');
         console.log(this.separator2);
         this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
@@ -95,6 +96,7 @@ class Gorgon {
         console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
         console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();
+        console.log('Press cntrl+c to exit the server');
     }
 
     /**

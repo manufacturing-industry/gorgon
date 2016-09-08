@@ -13,12 +13,12 @@ import SocketIO from 'socket.io';
 import compression from 'compression';
 import express from 'express';
 
-let app = express();
-let server = http.Server(app);
-let io = new SocketIO(server);
+var app = express();
+var server = http.Server(app);
+var io = new SocketIO(server);
 
 app.use(compression({}));
-app.use(express['static'](__dirname + '/../client'));
+//app.use(express['static'](__dirname + '/../client'));
 
 /**
  * The network controls singleton class
@@ -45,6 +45,7 @@ export class Network {
                 api: []
             };
             this.portReservations = [];
+            this.portReservationNamespace = [];
             this.activeServices = [];
             this.wsExpress = express();
             this.webSocketServer = http.Server(this.wsExpress);
@@ -121,6 +122,7 @@ export class Network {
                     return false;
                     break;
                 case 'rest':
+
                     break;
                 case 'http':
                     break;
@@ -139,7 +141,49 @@ export class Network {
             global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
         }
         return false;
+    }
 
+    _createRestComponent(serviceId, namespace, port)
+    {
+        if (this.isPortReserved(port))
+        {
+            let component = this.wsExpress.post('/' + namespace, function (req, res) {
+                this.services[serviceId].serviceRequest(req, res);
+            });
+
+            let pos = this.portReservations.indexOf(port);
+            let serviceNamespace = this.portReservationNamespace[pos];
+            if (serviceNamespace != namespace)
+            {
+                global.Logger.log('Network:add', 400, 'Unable to create component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace);
+                return false;
+            }
+        }
+
+        console.log('component port mount');
+        component.listen(port, function () {
+            console.log('Example app listening on port 3000!');
+        });
+        return true;
+    }
+
+    _createHttpComponent()
+    {
+
+    }
+
+    _createSocketComponent()
+    {
+
+    }
+
+    _createWebSocketComponent()
+    {
+
+    }
+
+    _createApiComponent()
+    {
 
     }
 
@@ -154,6 +198,17 @@ export class Network {
     remove(serviceNamespace, type, label)
     {
 
+    }
+
+    /**
+     * Checks if the port is reserved
+     *
+     * @param {number} port The port number
+     * @returns {boolean} Returns true if the port is reserved false if it is not
+     */
+    isPortReserved(port)
+    {
+        return this.portReservations.indexOf(port) > -1;
     }
 }
 

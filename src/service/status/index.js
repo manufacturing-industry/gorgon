@@ -119,7 +119,7 @@ class StatusService extends GorgonService {
      *
      * @note Provides the service request for the server
      */
-    serviceRequest(request)
+    serviceRequest(req, res)
     {
 
     }
