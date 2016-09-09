@@ -25,18 +25,20 @@ Feature  | Status
 ------------- | -------------
 Config  | Beta
 Logger  | Beta
+Middleware  | Alpha
 Sessions | Development
 Routing  | Alpha
 Service Containers | Beta
-Network Components  | Development
-Storage  | Development
-Status Service | Development
+Network Components  | Alpha
+Storage  | Alpha
+Status Service | Alpha
 
 ###Planned Network Support
 Feature  | Status
 ------------- | -------------
 Web Sockets | Development
-HTTP/1.1 | Development
+REST HTTP/1.1 | Beta
+HTTP/1.1 | Beta
 HTTP/2.0 | Development
 TCP/IP Sockets | Development
 Streams | Development
