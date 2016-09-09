@@ -122,7 +122,7 @@ export class Network {
                     return false;
                     break;
                 case 'rest':
-
+                    this._createRestComponent(serviceId, serviceNamespace, port);
                     break;
                 case 'http':
                     break;
@@ -145,24 +145,23 @@ export class Network {
 
     _createRestComponent(serviceId, namespace, port)
     {
+        var component = this.wsExpress.post('/' + namespace, function (req, res) {
+            this.services[serviceId].serviceRequest(req, res);
+        });
+
         if (this.isPortReserved(port))
         {
-            let component = this.wsExpress.post('/' + namespace, function (req, res) {
-                this.services[serviceId].serviceRequest(req, res);
-            });
-
             let pos = this.portReservations.indexOf(port);
             let serviceNamespace = this.portReservationNamespace[pos];
             if (serviceNamespace != namespace)
             {
-                global.Logger.log('Network:add', 400, 'Unable to create component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace);
+                global.Logger.log('Network:_createRestComponent', 400, 'Unable to create component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace);
                 return false;
             }
         }
 
-        console.log('component port mount');
         component.listen(port, function () {
-            console.log('Example app listening on port 3000!');
+            console.Logger.log('Network:_createRestComponent', 200, 'Created new rest component - listening on port: ' + port);
         });
         return true;
     }
