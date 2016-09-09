@@ -8,6 +8,7 @@
  */
 
 let instance = null;
+import Middleware from './middleware'
 import http from 'http';
 import SocketIO from 'socket.io';
 import compression from 'compression';
@@ -17,8 +18,10 @@ var app = express();
 var server = http.Server(app);
 var io = new SocketIO(server);
 
+/*
+ * Setup compression for the express server
+ */
 app.use(compression({}));
-//app.use(express['static'](__dirname + '/../client'));
 
 /**
  * The network controls singleton class
@@ -33,6 +36,7 @@ export class Network {
     {
         if(!instance)
         {
+            this.middleware = new Middleware();
             this.services = [];
             this.serviceMap = [];
             this.components = [];
@@ -49,12 +53,7 @@ export class Network {
             this.activeServices = [];
             this.wsExpress = express();
             this.webSocketServer = http.Server(this.wsExpress);
-
-            //Configures compression for the http stack
-            //this.baseComponent.express.use(compression({}));
-
             instance = this;
-
         } else return instance;
     }
 
@@ -113,6 +112,7 @@ export class Network {
      */
     add(serviceId, serviceNamespace, type, label, port)
     {
+        let created = false;
         if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
         {
             switch(type)
@@ -122,9 +122,10 @@ export class Network {
                     return false;
                     break;
                 case 'rest':
-                    this._createRestComponent(serviceId, serviceNamespace, port);
+                    created = this._createRestComponent(serviceId, serviceNamespace, port);
                     break;
                 case 'http':
+                    created = this._createHttpComponent(serviceId, serviceNamespace, port);
                     break;
                 case 'socket':
                     break;
@@ -143,14 +144,32 @@ export class Network {
         return false;
     }
 
+    /**
+     * Creates a REST network component
+     *
+     * @note When a port is set for null if the component requires a port to be created the service will assign a random port.  The service will need to retrieve this information as needed.
+     *
+     * @param {number} serviceId The services id from the service stack
+     * @param {string} namespace The namespace for the service
+     * @param {null|number} port The port for the service or null.
+     * @returns {*} Returns true io the component is created
+     * @private
+     */
     _createRestComponent(serviceId, namespace, port)
     {
+        return this._createHttpComponent(serviceId, namespace, port)
+    }
+
+    _createHttpComponent(serviceId, namespace, port)
+    {
+        let setListener = true;
         var component = this.wsExpress.post('/' + namespace, function (req, res) {
             this.services[serviceId].serviceRequest(req, res);
         });
 
         if (this.isPortReserved(port))
         {
+            setListener = false;
             let pos = this.portReservations.indexOf(port);
             let serviceNamespace = this.portReservationNamespace[pos];
             if (serviceNamespace != namespace)
@@ -160,15 +179,15 @@ export class Network {
             }
         }
 
-        component.listen(port, function () {
-            console.Logger.log('Network:_createRestComponent', 200, 'Created new rest component - listening on port: ' + port);
-        });
+        if (setListener)
+        {
+            component.listen(port, function () {
+                global.Logger.log('Network:_createRestComponent', 200, 'Created new rest component - listening on port: ' + port);
+            });
+        }
+
+
         return true;
-    }
-
-    _createHttpComponent()
-    {
-
     }
 
     _createSocketComponent()
