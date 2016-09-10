@@ -11,6 +11,7 @@ let instance = null;
 import _ from 'lodash'
 import Middleware from './middleware'
 import Api from './api';
+import net from 'net';
 import http from 'http';
 import SocketIO from 'socket.io';
 import compression from 'compression';
@@ -122,6 +123,7 @@ export class Network {
                     created = this._createHttpComponent(serviceId, serviceNamespace, port, middleware);
                     break;
                 case 'socket':
+                    created = this._createSocketComponent(serviceId, serviceNamespace, port);
                     break;
                 case 'webSocket':
                     created = this._createWebSocketComponent(serviceId, serviceNamespace, port, middleware);
@@ -291,9 +293,45 @@ export class Network {
         return true;
     }
 
-    _createSocketComponent(serviceId, namespace)
+    _createSocketComponent(serviceId, namespace, port)
     {
+        let setListener = true;
+        if (this.isPortReserved(port))
+        {
+            setListener = false;
+            let pos = this.portReservations.indexOf(port);
+            let serviceNamespace = this.portReservationNamespace[pos];
+            if (serviceNamespace != namespace)
+            {
+                global.Logger.log('Network:_createSocketComponent', 400, 'Unable to create new socket component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace,
+                    { type: isRest === false ? 'http' : 'rest' });
+                return false;
+            }
+        }
 
+        var server = net.createServer((socket) => {
+            // 'connection' listener
+            console.log('client connected');
+            socket.on('end', () => {
+                console.log('client disconnected');
+            });
+            socket.write('hello\r\n');
+            socket.pipe(socket);
+        });
+
+        server.on('error', (err) => {
+            //throw err;
+            console.log('A socket error has occurred');
+            global.Logger.log('Network:_createSocketComponent', 400, 'A socket error has occurred in Service Namespace: ' + namepsace + ' - Service Id: ' + serviceId);
+        });
+
+        if (setListener)
+        {
+            server.listen(port, () => {
+                console.log('server bound');
+            });
+        }
+        return true;
     }
 
     _createApiComponent(serviceId, namespace)
