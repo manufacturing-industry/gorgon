@@ -10,7 +10,7 @@
 /**
  * The Mongo Storage Driver
  */
-export class MongoStorageDriver
+export class MongoStorageDriver extends GorgonStorage
 {
     /**
      * Constructs the class

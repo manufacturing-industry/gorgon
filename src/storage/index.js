@@ -10,4 +10,4 @@
 /*
  * Exports
  */
-export {GorgonStorage, MemoryStorageDriver, } from './'
+export {GorgonStorage, MemoryStorageDriver, MongoStorageDriver, MySqlStorageDriver } from './'

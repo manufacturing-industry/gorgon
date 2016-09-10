@@ -7,16 +7,13 @@
  * @url https://github.com/manufacturing-industry
  */
 
-/*
- * Imports
- */
-
 /**
  * The Memory Storage Driver
  *
  * Note: The memory storage driver storage data in the app vs external services like mongo or mysql
  */
-export class MemoryStorageDriver extends  GorgonStorage {
+export class MemoryStorageDriver extends GorgonStorage
+{
     /**
      * Constructs the class
      */

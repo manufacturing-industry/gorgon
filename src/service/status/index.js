@@ -115,11 +115,33 @@ class StatusService extends GorgonService {
     }
 
     /**
-     * The service request method
+     * The service request method for http and rest services
      *
      * @note Provides the service request for the server
+     *
+     * @param {Request} req A request object
+     * @param {Object} res A response object
+     * @param {string} mode Controls if the call is http or rest
+     * @todo Add routing for handling inbound requests
      */
-    serviceRequest(req, res)
+    serviceRequest(req, res, mode)
+    {
+
+    }
+
+    /**
+     * The service api call method
+     *
+     *
+     * @param data
+     * @todo Add routing for handling inbound requests
+     */
+    apiRequest(data)
+    {
+
+    }
+
+    setWebSocketEvents(socket)
     {
 
     }

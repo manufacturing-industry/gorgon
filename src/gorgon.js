@@ -14,8 +14,26 @@ import {GorgonConfig} from "config/config";
 import {GorgonEnv} from "config/env";
 import {GorgonContainerService} from 'service/index';
 import {Logger} from 'component/log'
+import _ from 'lodash'
+import colog from 'colog'
 
+/*
+ * Configure globals
+ */
+
+/**
+ * The global logger class
+ *
+ * @type {Logger}
+ */
 global.Logger = new Logger();
+
+/**
+ * The global console class
+ *
+ * @type {object} The colog instance
+ */
+global.Console = colog;
 
 /**
  * The Gorgon class
@@ -71,18 +89,35 @@ class Gorgon {
     initServer()
     {
         this._bootstrap();
-        console.log(this.separator2);
-        console.log('Loading Services');
-        console.log(this.separator2);
+        global.Console.log(this.separator2);
+        global.Console.question('Loading Services');
+        global.Console.log(this.separator2);
         this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
 
         this.GorgonEnv.service.forEach(function(value){
-            this.GorgonContainerService.add(value.service);
-            console.log(value.namespace + ' - [ Ok ]');
-            this.Logger.log('Gorgon:initServer', 200, 'Loaded service namespace: ' + value.namespace);
+            let consoleWidth = 48;
+            let loaded = this.GorgonContainerService.add(value.service);
+            let status = loaded !== false;
+            //global.Console.log(value.namespace + ' - [ ' + loaded === false ? global.Console.error(status) : global.Console.success(status) + ' ]');
+            if (loaded)
+            {
+                let logExtLen = 6;
+                let spaceLength = consoleWidth - logExtLen - value.namespace.length - 2;
+                let spaceChar = _.repeat('.', spaceLength);
+                this.Logger.log('Gorgon:initServer', 200, 'Loaded service namespace: ' + value.namespace);
+                global.Console.log(value.namespace +' ' + spaceChar + ' [ ' + global.Console.color('OK', 'green') + ' ]');
+            } else {
+                let logExtLen = 10;
+                let spaceLength = consoleWidth - logExtLen - value.namespace.length - 2;
+                let spaceChar = _.repeat('.', spaceLength);
+                this.Logger.log('Gorgon:initServer', 400, 'Failed to load service with namespace: ' + value.namespace);
+                global.Console.log(value.namespace +' ' + spaceChar + ' [ ' + global.Console.color('FAILED', 'red') + ' ]');
+            }
         }, this);
 
         this.Logger.log('Gorgon:initServer', 200, 'Service Loading Completed');
+        global.Console.log(this.separator2);
+        global.Console.log('Server is now online...');
     }
 
     /**
@@ -92,11 +127,11 @@ class Gorgon {
      */
     _bootstrap()
     {
-        console.log('Gorgon Server - v' + this.GorgonConfig.data.version);
-        console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
-        console.log('Project: https://github.com/manufacturing-industry/gorgon');
+        global.Console.log('Gorgon Server - v' + this.GorgonConfig.data.version);
+        global.Console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
+        global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();
-        console.log('Press cntrl+c to exit the server');
+        global.Console.log('Press cntrl+c to exit the server');
     }
 
     /**
@@ -106,9 +141,9 @@ class Gorgon {
      */
     _motd()
     {
-        console.log(this.separator1);
-        console.log(this.GorgonConfig.data.motd);
-        console.log(this.separator1);
+        global.Console.log(this.separator1);
+        global.Console.log(this.GorgonConfig.data.motd);
+        global.Console.log(this.separator1);
     }
 }
 

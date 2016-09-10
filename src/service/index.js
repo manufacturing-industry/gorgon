@@ -16,7 +16,8 @@ export class GorgonContainerService {
     /**
      * Constructs the class
      */
-    constructor() {
+    constructor()
+    {
         this.containers = [];
         this.containerMap = [];
         this.name = "Gorgon Container Service";
@@ -78,20 +79,80 @@ export class GorgonContainerService {
  */
 export class GorgonService
 {
+    /**
+     * Constructs the class
+     */
     constructor()
     {
+        /**
+         * The service id for the service
+         *
+         * @note The service Id is set when a service is added to the network layer and its service id is returned
+         *
+         * @type {null|number}
+         */
+        this.serviceId = null;
+
+        /**
+         * The service name
+         * @type {null|string}
+         */
         this.name = null;
+
+        /**
+         * The service description
+         * @type {null|string}
+         */
         this.description = null;
+
+        /**
+         * The service type
+         * @type {string}
+         */
         this.type = 'Service';
+
+        /**
+         * The service router
+         * @type {null|Router}
+         */
         this.router = null;
+
+        /**
+         * The list of inbound service types to connect
+         *
+         * @note These map 1:1 with this.ports
+         *
+         * @type {Array}
+         */
         this.inboundTypes = [];
+
+        /**
+         * The list of inbound ports types to
+         *
+         * @note These map 1:1 with this.inboundTypes
+         *
+         * @type {Array}
+         */
         this.ports = [];
+
+        /**
+         * The service permissions list
+         * @type {Array}
+         */
         this.permissions = [];
+
+        /**
+         * The service networking configuration
+         *
+         * @note Most object will build this via this._setNetworking
+         *
+         * @type {Array}
+         */
         this.networking = [];
     }
 
     /**
-     * Updates the networking property via the
+     * Sets the networking property via the inboundTypes and ports properties
      * @private
      */
     _setNetworking()
@@ -105,5 +166,26 @@ export class GorgonService
         } else {
             console.warn('GorgonService:_setNetworking - Missing or invalid networking for service ' + this.name);
         }
+    }
+
+    /**
+     * Sets the serviceId for the service
+     * @param {number} serviceId
+     * @return {boolean} Returns true on completion
+     */
+    setServiceId(serviceId)
+    {
+        this.serviceId = serviceId;
+        return true;
+    }
+
+    apiRequest(req, res, isRest)
+    {
+        return null;
+    }
+
+    setWebSocketEvents(socket)
+    {
+        return null;
     }
 }

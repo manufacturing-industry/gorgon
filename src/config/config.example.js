@@ -24,7 +24,7 @@ export class GorgonConfig
         this.data = {
             name: 'Gorgon Server',
             version: '0.0.1 Pre-Alpha',
-            motd: 'This is the message of the day for the Gorgon Server'
+            motd: 'This is the message of the day.'
         };
 
         /**

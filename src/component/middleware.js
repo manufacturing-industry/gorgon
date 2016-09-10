@@ -23,7 +23,7 @@ export class Middleware {
         this.data = [];
         this.serviceRegister = [];
         this.dataMap = [];
-        this.channels = ['REQUEST', 'RESPONSE'];
+        this.channels = ['PRE_REQUEST', 'PRE_RESPONSE', 'PRE_API_CALL', 'POST_API_CALL'];
         this.channels.forEach(function(value){
             this.data.push([]);
             this.dataMap.push(value);

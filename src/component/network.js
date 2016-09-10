@@ -8,20 +8,13 @@
  */
 
 let instance = null;
+import _ from 'lodash'
 import Middleware from './middleware'
+import Api from './api';
 import http from 'http';
 import SocketIO from 'socket.io';
 import compression from 'compression';
 import express from 'express';
-
-var app = express();
-var server = http.Server(app);
-var io = new SocketIO(server);
-
-/*
- * Setup compression for the express server
- */
-app.use(compression({}));
 
 /**
  * The network controls singleton class
@@ -51,8 +44,6 @@ export class Network {
             this.portReservations = [];
             this.portReservationNamespace = [];
             this.activeServices = [];
-            this.wsExpress = express();
-            this.webSocketServer = http.Server(this.wsExpress);
             instance = this;
         } else return instance;
     }
@@ -70,6 +61,7 @@ export class Network {
             this.services.push(service);
             this.serviceMap.push(service.namespace);
             let serviceId = this.serviceMap.length - 1;
+            service.setServiceId(service);
 
             /*
              * Add networking components
@@ -83,7 +75,8 @@ export class Network {
                      */
                     this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
                 }
-
+                global.Logger.log('Network:addService', 200, 'Added services components: ' + service.name + ' for Service Namespace: ' + service.namespace + ' - ServiceId: ' + serviceId);
+                return true;
             }
         }
         return false;
@@ -108,9 +101,10 @@ export class Network {
      * @param {string} type The network component type
      * @param {string} label The label for the component
      * @param {string|null} port The optional port for the network component
+     * @param {function} middleware The middleware to call for this service
      * @return {boolean} Returns true on completion and false on failure
      */
-    add(serviceId, serviceNamespace, type, label, port)
+    add(serviceId, serviceNamespace, type, label, port, middleware)
     {
         let created = false;
         if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
@@ -122,22 +116,21 @@ export class Network {
                     return false;
                     break;
                 case 'rest':
-                    created = this._createRestComponent(serviceId, serviceNamespace, port);
+                    created = this._createRestComponent(serviceId, serviceNamespace, port, middleware);
                     break;
                 case 'http':
-                    created = this._createHttpComponent(serviceId, serviceNamespace, port);
+                    created = this._createHttpComponent(serviceId, serviceNamespace, port, middleware);
                     break;
                 case 'socket':
                     break;
                 case 'webSocket':
+                    created = this._createWebSocketComponent(serviceId, serviceNamespace, port, middleware);
                     break;
                 case 'api':
                     break;
             }
 
             this.componentMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
-            console.log('loadType');
-            console.log(type);
             //this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
             global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
         }
@@ -147,26 +140,78 @@ export class Network {
     /**
      * Creates a REST network component
      *
-     * @note When a port is set for null if the component requires a port to be created the service will assign a random port.  The service will need to retrieve this information as needed.
+     * @note A REST network component uses the http 1.1 stack
      *
      * @param {number} serviceId The services id from the service stack
      * @param {string} namespace The namespace for the service
      * @param {null|number} port The port for the service or null.
+     * @param {function} middleware The middleware to call for this service
      * @returns {*} Returns true io the component is created
      * @private
      */
-    _createRestComponent(serviceId, namespace, port)
+    _createRestComponent(serviceId, namespace, port, middleware)
     {
-        return this._createHttpComponent(serviceId, namespace, port)
+        return this._createHttpComponent(serviceId, namespace, port, middleware, true)
     }
 
-    _createHttpComponent(serviceId, namespace, port)
+    /**
+     * Creates a http network component
+     *
+     * @note When a port is set for null if the component requires a port to be created the service will assign a random port.  The service will need to retrieve this information as needed.
+     * @note A http network component uses the http stack
+     *
+     * @param {number} serviceId The services id from the service stack
+     * @param {string} namespace The namespace for the service
+     * @param {null|number} port The port for the service or null.
+     * @param {function} middleware The middleware to call for this service
+     * @param {boolean|undefined} isRest Controls the rest interface flag when creating the http instance
+     * @returns {*} Returns true io the component is created
+     * @private
+     */
+    _createHttpComponent(serviceId, namespace, port, middleware, isRest)
     {
         let setListener = true;
-        var component = this.wsExpress.post('/' + namespace, function (req, res) {
-            this.services[serviceId].serviceRequest(req, res);
+        if (isRest == undefined) isRest = false;
+
+
+        var server = express();
+        server.use(compression({}));
+
+        var component = server.all('/', function (req, res) {
+            this.middleware.callChannel('PRE_REQUEST', req);
+            this.middleware.callChannel('PRE_RESPONSE', res);
+            this.services[serviceId].serviceRequest(req, res, isRest === false ? 'http' : 'rest');
         });
 
+        if (this.isPortReserved(port))
+        {
+            setListener = false;
+            let pos = this.portReservations.indexOf(port);
+            let serviceNamespace = this.portReservationNamespace[pos];
+            if (serviceNamespace != namespace)
+            {
+                global.Logger.log('Network:_createHttpComponent', 400, 'Unable to create new http component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace,
+                    { type: isRest === false ? 'http' : 'rest' });
+                return false;
+            }
+        }
+
+        if (_.isFunction(middleware)) component.use(middleware);
+
+        if (setListener)
+        {
+            component.listen(port, function () {
+                global.Logger.log('Network:_createHttpComponent', 200, 'Created new http component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on port: ' + port,
+                    { type: isRest === false ? 'http' : 'rest' });
+            });
+        }
+
+        return true;
+    }
+
+    _createWebSocketComponent(serviceId, namespace, port, middleware)
+    {
+        let setListener = true;
         if (this.isPortReserved(port))
         {
             setListener = false;
@@ -179,30 +224,81 @@ export class Network {
             }
         }
 
-        if (setListener)
-        {
-            component.listen(port, function () {
-                global.Logger.log('Network:_createRestComponent', 200, 'Created new rest component - listening on port: ' + port);
+        //create webSocket component
+        var server = express();
+        server.use(compression({}));
+
+        var httpServer = http.Server(server);
+        var webSocket = new SocketIO(httpServer);
+
+        let users = [];
+        let sockets = {};
+
+        webSocket.use(compression({}));
+        //app.use(express['static'](__dirname + '/../../client'));
+
+        webSocket.on('connection', (socket) => {
+            let userId = socket.handshake.query.userId;
+            let currentUser = {
+                id: socket.id,
+                userId: userId
+            };
+
+            if (findIndex(users, currentUser.id) > -1) {
+                console.log('[INFO] User ID is already connected, kicking.');
+                socket.disconnect();
+            }  /*else if (!validNick(currentUser.nick)) {
+                socket.disconnect();
+            }*/ else {
+                console.log('[INFO] User ID: ' + currentUser.userId + ' connected!');
+                sockets[currentUser.id] = socket;
+                users.push(currentUser);
+                webSocket.emit('User Join', { userId: currentUser.userId });
+                console.log('[INFO] Total users: ' + users.length);
+            }
+
+            socket.on('ding', () => {
+                socket.emit('dong');
             });
-        }
+
+            socket.on('disconnect', () => {
+                if (findIndex(users, currentUser.id) > -1) users.splice(findIndex(users, currentUser.id), 1);
+                console.log('[INFO] User ' + currentUser.userId + ' disconnected!');
+                socket.broadcast.emit('userDisconnect', { userId: currentUser.userId });
+            });
+
+            //Bind the events contained within the service to this socket
+            this.services[serviceId].setWebSocketEvents(socket);
+
+            /*
+            socket.on('action', (data) => {
+                let _nick = sanitizeString(data.nick);
+                let _message = sanitizeString(data.message);
+                let date = new Date();
+                let time = ("0" + date.getHours()).slice(-2) + ("0" + date.getMinutes()).slice(-2);
+
+                console.log('[CHAT] [' + time + '] ' + _nick + ': ' + _message);
+                socket.broadcast.emit('serverSendUserChat', {nick: _nick, message: _message});
+            });*/
+        });
+
+        httpServer.listen(port, () => {
+            console.log('[INFO] ' + namespace + ' Listening on *:' + port);
+        });
+
 
 
         return true;
     }
 
-    _createSocketComponent()
+    _createSocketComponent(serviceId, namespace)
     {
 
     }
 
-    _createWebSocketComponent()
+    _createApiComponent(serviceId, namespace)
     {
-
-    }
-
-    _createApiComponent()
-    {
-
+        return Api.addApiNode(serviceId, namespace, this.services[serviceId].apiRequest);
     }
 
     /**
