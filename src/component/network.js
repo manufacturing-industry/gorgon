@@ -10,7 +10,7 @@
 let instance = null;
 import _ from 'lodash'
 import Middleware from './middleware'
-import Api from './api';
+import {Api} from './api';
 import net from 'net';
 import http from 'http';
 import SocketIO from 'socket.io';
@@ -42,6 +42,7 @@ export class Network {
                 http: [],
                 api: []
             };
+            this.api = new Api();
             this.portReservations = [];
             this.portReservationNamespace = [];
             this.activeServices = [];
@@ -129,11 +130,12 @@ export class Network {
                     created = this._createWebSocketComponent(serviceId, serviceNamespace, port, middleware);
                     break;
                 case 'api':
+                    created = this._createApiComponent(serviceId, serviceNamespace);
                     break;
             }
 
             this.componentMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
-            //this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + label + '-' + port);
+            this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + port);
             global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
         }
         return false;
@@ -336,7 +338,7 @@ export class Network {
 
     _createApiComponent(serviceId, namespace)
     {
-        return Api.addApiNode(serviceId, namespace, this.services[serviceId].apiRequest);
+        return this.api.addApiNode(serviceId, namespace, this.services[serviceId].apiRequest);
     }
 
     /**
