@@ -35,6 +35,23 @@ global.Logger = new Logger();
  */
 global.Console = colog;
 
+global.Console.status = (type, message)=>
+{
+    switch(type)
+    {
+        default:
+        case 'info':
+            global.Console.log('[' + global.Console.color('I', 'yellow') + '] ' + message);
+            break;
+        case 'notice':
+            global.Console.log('[' + global.Console.color('N', 'cyan') + '] ' + message);
+            break;
+        case 'error':
+            global.Console.log('[' + global.Console.color('E', 'red') + '] ' + message);
+            break;
+    }
+};
+
 /**
  * The Gorgon class
  */
@@ -69,7 +86,6 @@ class Gorgon {
          */
         this.GorgonContainerService = new GorgonContainerService();
 
-
         /**
          * The first style of CLI separator
          * @type {string}
@@ -97,8 +113,6 @@ class Gorgon {
         this.GorgonEnv.service.forEach(function(value){
             let consoleWidth = 48;
             let loaded = this.GorgonContainerService.add(value.service);
-            let status = loaded !== false;
-            //global.Console.log(value.namespace + ' - [ ' + loaded === false ? global.Console.error(status) : global.Console.success(status) + ' ]');
             if (loaded)
             {
                 let logExtLen = 6;
@@ -118,6 +132,7 @@ class Gorgon {
         this.Logger.log('Gorgon:initServer', 200, 'Service Loading Completed');
         global.Console.log(this.separator2);
         global.Console.log('Server is now online...');
+        global.Console.log(this.separator1);
     }
 
     /**
@@ -131,7 +146,7 @@ class Gorgon {
         global.Console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
         global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();
-        global.Console.log('Press cntrl+c to exit the server');
+        global.Console.log('Press ' + global.Console.color('cntrl+c', 'yellow') + ' to exit the server');
     }
 
     /**
@@ -142,7 +157,7 @@ class Gorgon {
     _motd()
     {
         global.Console.log(this.separator1);
-        global.Console.log(this.GorgonConfig.data.motd);
+        global.Console.log(global.Console.color(this.GorgonConfig.data.motd, 'yellow'));
         global.Console.log(this.separator1);
     }
 }

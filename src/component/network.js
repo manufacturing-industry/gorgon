@@ -30,11 +30,40 @@ export class Network {
     {
         if(!instance)
         {
+            /**
+             * The middleware for the class
+             * @type {Middleware}
+             */
             this.middleware = new Middleware();
+
+            /**
+             * The services stack
+             * @type {Array}
+             */
             this.services = [];
+
+            /**
+             * The service stack map
+             * @type {Array}
+             */
             this.serviceMap = [];
+
+            /**
+             * The component collection
+             * @type {Array}
+             */
             this.components = [];
+
+            /**
+             * The component collection map
+             * @type {Array}
+             */
             this.componentMap = [];
+
+            /**
+             * The component collection type map
+             * @type {{rest: Array, socket: Array, webSocket: Array, http: Array, api: Array}}
+             */
             this.componentTypeMap = {
                 rest: [],
                 socket: [],
@@ -42,10 +71,31 @@ export class Network {
                 http: [],
                 api: []
             };
+
+            /**
+             * The network API control
+             * @type {Api}
+             */
             this.api = new Api();
+
+            /**
+             * The port reservation list
+             * @type {Array}
+             */
             this.portReservations = [];
+
+            /**
+             * The port reservation namespace list
+             * @type {Array}
+             */
             this.portReservationNamespace = [];
+
+            /**
+             * The active service in the network stack
+             * @type {Array}
+             */
             this.activeServices = [];
+
             instance = this;
         } else return instance;
     }
@@ -77,7 +127,7 @@ export class Network {
                      */
                     this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
                 }
-                global.Logger.log('Network:addService', 200, 'Added services components: ' + service.name + ' for Service Namespace: ' + service.namespace + ' - ServiceId: ' + serviceId);
+                global.Logger.log('Network:addService', 200, 'Added services components: ' + service.name + ' for Service: ' + service.namespace + ' - ServiceId: ' + serviceId);
                 return true;
             }
         }
@@ -109,12 +159,15 @@ export class Network {
     add(serviceId, serviceNamespace, type, label, port, middleware)
     {
         let created = false;
+        let reservePort = false;
+        let createPort = null;
         if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
         {
+            if (port == undefined || port == null) port = 0;
             switch(type)
             {
                 default:
-                    global.Logger.log('Network:add', 400, 'Unable to load component type of: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
+                    global.Logger.log('Network:add', 400, 'Unable to load component type of: ' + type + ' for Service: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
                     return false;
                     break;
                 case 'rest':
@@ -134,9 +187,12 @@ export class Network {
                     break;
             }
 
+            if (created === false) return false;
+            this.components.push(created);
             this.componentMap.push(serviceNamespace + '-' + type + '-' + label + '-' + port);
             this.componentTypeMap[type].push(serviceNamespace + '-' + type + '-' + port);
-            global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service Namespace: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
+            global.Logger.log('Network:add', 200, 'Added network component: ' + type + ' for Service: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
+            return true;
         }
         return false;
     }
@@ -144,13 +200,14 @@ export class Network {
     /**
      * Creates a REST network component
      *
-     * @note A REST network component uses the http 1.1 stack
+     * @note A REST network component uses the http 1.1 stack (express)
+     * @note When the port is set to 0 a random available port will be assigned
      *
      * @param {number} serviceId The services id from the service stack
      * @param {string} namespace The namespace for the service
      * @param {null|number} port The port for the service or null.
      * @param {function} middleware The middleware to call for this service
-     * @returns {*} Returns true io the component is created
+     * @returns {*} Returns component if created or false on failure
      * @private
      */
     _createRestComponent(serviceId, namespace, port, middleware)
@@ -162,21 +219,21 @@ export class Network {
      * Creates a http network component
      *
      * @note When a port is set for null if the component requires a port to be created the service will assign a random port.  The service will need to retrieve this information as needed.
-     * @note A http network component uses the http stack
+     * @note A http network component uses the http 1.1 stack (express)
+     * @note When the port is set to 0 a random available port will be assigned
      *
      * @param {number} serviceId The services id from the service stack
      * @param {string} namespace The namespace for the service
      * @param {null|number} port The port for the service or null.
      * @param {function} middleware The middleware to call for this service
      * @param {boolean|undefined} isRest Controls the rest interface flag when creating the http instance
-     * @returns {*} Returns true io the component is created
+     * @returns {*} Returns component if created or false on failure
      * @private
      */
     _createHttpComponent(serviceId, namespace, port, middleware, isRest)
     {
         let setListener = true;
         if (isRest == undefined) isRest = false;
-
 
         var server = express();
         server.use(compression({}));
@@ -204,15 +261,30 @@ export class Network {
 
         if (setListener)
         {
-            component.listen(port, function () {
-                global.Logger.log('Network:_createHttpComponent', 200, 'Created new http component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on port: ' + port,
+            var listener = component.listen(port, function () {
+                NetworkStack.addPortReservation(namespace, listener.address().port);
+                global.Console.status('info', 'Http Bound Type: ' + (isRest === false ? 'http' : 'rest') + ' - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
+                global.Logger.log('Network:_createHttpComponent', 200, 'Created new http component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port,
                     { type: isRest === false ? 'http' : 'rest' });
             });
         }
 
-        return true;
+        return component;
     }
 
+    /**
+     * Creates a web socket network component
+     *
+     * @note Uses socket io/express for web socket server
+     * @note When the port is set to 0 a random available port will be assigned
+     *
+     * @param {number} serviceId The services id from the service stack
+     * @param {string} namespace The namespace for the service
+     * @param {number} port The port for the web socket component
+     * @param {function} middleware The middleware to call for this service
+     * @returns {*} Returns component if created or false on failure
+     * @private
+     */
     _createWebSocketComponent(serviceId, namespace, port, middleware)
     {
         let setListener = true;
@@ -286,15 +358,25 @@ export class Network {
             });*/
         });
 
-        httpServer.listen(port, () => {
-            console.log('[INFO] ' + namespace + ' Listening on *:' + port);
+        var listener = httpServer.listen(port, () => {
+            NetworkStack.addPortReservation(namespace, listener.address().port);
+            global.Console.status('info', 'Web Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
         });
 
-
-
-        return true;
+        return webSocket;
     }
 
+    /**
+     * Creates a TCP/IP socket network component
+     *
+     * @note When the port is set to 0 a random available port will be assigned
+     *
+     * @param {number} serviceId The services id from the service stack
+     * @param {string} namespace The namespace for the service
+     * @param port The port for the TCP/IP socket component
+     * @returns {boolean} Returns true on completion and false on error
+     * @private
+     */
     _createSocketComponent(serviceId, namespace, port)
     {
         let setListener = true;
@@ -324,18 +406,27 @@ export class Network {
         server.on('error', (err) => {
             //throw err;
             console.log('A socket error has occurred');
-            global.Logger.log('Network:_createSocketComponent', 400, 'A socket error has occurred in Service Namespace: ' + namepsace + ' - Service Id: ' + serviceId);
+            global.Logger.log('Network:_createSocketComponent', 400, 'A socket error has occurred in Service: ' + namepsace + ' - Service Id: ' + serviceId);
         });
 
         if (setListener)
         {
-            server.listen(port, () => {
-                console.log('server bound');
+            var listener = server.listen(port, () => {
+                NetworkStack.addPortReservation(namespace, listener.address().port);
+                global.Console.status('info', 'TCP/IP Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
             });
         }
-        return true;
+        return server;
     }
 
+    /**
+     * Create an API extension component
+     *
+     * @param {number} serviceId The services id from the service stack
+     * @param {string} namespace The namespace for the service
+     * @returns {boolean} Returns true on completion and false on error
+     * @private
+     */
     _createApiComponent(serviceId, namespace)
     {
         return this.api.addApiNode(serviceId, namespace, this.services[serviceId].apiRequest);
@@ -348,6 +439,7 @@ export class Network {
      * @param {string} type The network component type
      * @param {string} label The label for the component
      * @return {boolean} Returns true on completion and false on failure
+     * @todo Need to complete this
      */
     remove(serviceNamespace, type, label)
     {
@@ -364,29 +456,21 @@ export class Network {
     {
         return this.portReservations.indexOf(port) > -1;
     }
-}
 
-class NetworkComponent
-{
-    constructor(type, label, port, service)
+    /**
+     * Adds a port reservation to the network stack
+     * @param {string} namespace The service namespace for the reserved port
+     * @param {number} port The port number
+     * @returns {boolean} Returns true on completion
+     */
+    addPortReservation(namespace, port)
     {
-        this.type = type;
-        this.label = label;
-        this.port = port;
-        this.service = service;
-        this.attr = {};
-    }
-
-    addAttribute(name, value)
-    {
-        this.attr[name] = value;
-    }
-
-    removeAttribute(name)
-    {
-        delete this.attr[name];
+        this.portReservations.push(port);
+        this.portReservationNamespace.push(namespace);
+        return true;
     }
 }
+
 
 /*
  * Exports
