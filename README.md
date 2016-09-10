@@ -29,18 +29,18 @@ Middleware  | Alpha
 Sessions | Development
 Routing  | Alpha
 Service Containers | Beta
-Network Components  | Alpha
-Storage  | Alpha
+Network Components  | Beta
+Storage  | Beta
 Status Service | Alpha
 
 ###Planned Network Support
 Feature  | Status
 ------------- | -------------
-Web Sockets | Development
+Web Sockets | Beta
 REST HTTP/1.1 | Beta
 HTTP/1.1 | Beta
 HTTP/2.0 | Development
-TCP/IP Sockets | Development
+TCP/IP Sockets | Beta
 Streams | Development
 
 ##Planned API Integrations
