@@ -78,7 +78,7 @@ var config = {
     },
     plugins: plugins,
     externals: nodeModules,
-    devtool: 'sourcemap'
+    devtool: '#inline-source-map'
 };
 
 /*

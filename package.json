@@ -9,9 +9,9 @@
   "scripts": {
     "run-debug": "node-debug lib/gorgon.min.js",
     "gorgon": "node lib/gorgon.min.js",
-    "gorgon-build": "webpack --mode=build --progress && node lib/gorgon.min.js",
-    "gorgon-build-dev": "webpack --mode=dev --progress && node lib/gorgon.js",
-    "gorgon-build-debug": "webpack --mode=build && node-debug lib/gorgon.min.js",
+    "gorgon-build": "webpack --mode=build --progress --colors && node lib/gorgon.min.js",
+    "gorgon-build-dev": "webpack --mode=dev --progress --colors && node lib/gorgon.js",
+    "gorgon-build-debug": "webpack --mode=dev --progress --colors && node-debug lib/gorgon.js",
     "compile": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
