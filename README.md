@@ -20,6 +20,14 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 ##Dev Mode
 - Run the server: npm run babel-debug
 
+##Applications
+Gorgon is a collection of applications that allow for a robust network service infrastructure.
+Application  | Status
+------------- | -------------
+Server  | Alpha
+Web CLI | Development
+WebSocket Client | Development
+
 ##Current Features
 - NOTE: This is currently pre-alpha, we will update the documentation as the server becomes more stable and capable.
 
