@@ -10,10 +10,11 @@
 /*
  * Imports
  */
-import {GorgonConfig} from "config/config";
-import {GorgonEnv} from "config/env";
-import {GorgonContainerService} from 'service/index';
-import {Logger} from 'component/log'
+import path from 'path';
+import {GorgonConfig} from "./config/config";
+import {GorgonEnv} from "./config/env";
+import {GorgonContainerService} from './service/index';
+import {Logger} from './component/log'
 import _ from 'lodash'
 import colog from 'colog'
 
@@ -34,6 +35,13 @@ global.Logger = new Logger();
  * @type {object} The colog instance
  */
 global.Console = colog;
+
+/**
+ * The app root path
+ * @type {string}
+ */
+global.appRoot = path.resolve(__dirname);
+
 
 global.Console.status = (type, message)=>
 {
@@ -142,7 +150,7 @@ class Gorgon {
      */
     _bootstrap()
     {
-        global.Console.log(global.Console.color(__LIB_FULL_NAME__ + ' - v' + this.GorgonConfig.data.version, 'green'));
+        global.Console.log(global.Console.color('Gorgon Server' + ' - v' + this.GorgonConfig.data.version, 'green'));
         global.Console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
         global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();
