@@ -7,6 +7,11 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/*
+ * Imports
+ */
+import moment from 'moment';
+
 /**
  * The Gorgon Container Service Class
  *
@@ -179,13 +184,43 @@ export class GorgonService
         return true;
     }
 
-    apiRequest(req, res, isRest)
+    /**
+     * Interface: The default serviceRequest method
+     *
+     * @param {req} req The request object
+     * @param {res} res The response object
+     * @param {string} type The type for the service request (http or rest)
+     * @returns {null} Returns null when not implemented
+     */
+    serviceRequest(req, res, type)
     {
         return null;
     }
 
+    /**
+     * Interface: The default apiRequest method
+     *
+     * @param {ApiCall} apiCall The ApiCall object
+     * @returns {ApiCall} Returns the api call after setting error state and updating the returned timestamp
+     */
+    apiRequest(apiCall)
+    {
+        apiCall.error = true;
+        apiCall.errors,push('API call handler not defined');
+        apiCall.returned = moment();
+        return apiCall;
+    }
+
+    /**
+     * Interface: The default apiRequest method
+     *
+     * @param {Object} socket The socket object to call
+     * @returns {null} Returns null when not implemented
+     */
     setWebSocketEvents(socket)
     {
         return null;
     }
+
+
 }

@@ -131,7 +131,7 @@ class Gorgon {
 
         this.Logger.log('Gorgon:initServer', 200, 'Service Loading Completed');
         global.Console.log(this.separator2);
-        global.Console.log('Server is now online...');
+        global.Console.question('Loading Complete - Server Online');
         global.Console.log(this.separator1);
     }
 

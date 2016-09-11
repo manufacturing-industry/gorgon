@@ -7,7 +7,9 @@
  * @url https://github.com/manufacturing-industry
  */
 
-let instance = null;
+/*
+ * Imports
+ */
 import _ from 'lodash'
 import Middleware from './middleware'
 import {Api} from './api';
@@ -16,6 +18,16 @@ import http from 'http';
 import SocketIO from 'socket.io';
 import compression from 'compression';
 import express from 'express';
+
+/*
+ * Variables
+ */
+
+/**
+ * Contains the singleton instance for the network
+ * @type {null|Network}
+ */
+let instance = null;
 
 /**
  * The network controls singleton class
@@ -361,6 +373,7 @@ export class Network {
         var listener = httpServer.listen(port, () => {
             NetworkStack.addPortReservation(namespace, listener.address().port);
             global.Console.status('info', 'Web Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
+            global.Logger.log('Network:_createWebSocketComponent', 200, 'Created new web socket component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
         });
 
         return webSocket;
@@ -414,6 +427,7 @@ export class Network {
             var listener = server.listen(port, () => {
                 NetworkStack.addPortReservation(namespace, listener.address().port);
                 global.Console.status('info', 'TCP/IP Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
+                global.Logger.log('Network:_createSocketComponent', 200, 'Created new TCP/IP socket component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
             });
         }
         return server;
@@ -471,9 +485,14 @@ export class Network {
     }
 }
 
-
 /*
  * Exports
  */
+
+/**
+ * The network stack singleton instance
+ * @type {Network}
+ */
 var NetworkStack = new Network();
+
 export default NetworkStack;
