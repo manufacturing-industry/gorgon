@@ -1,4 +1,26 @@
+GORGON SERVER HISTORY
+========================================================================================================================
+This be a tale about networking and things!
+========================================================================================================================
+
+v0.0.3 - Status Service Alpha and Updates Components - 09/11/2016
+------------------------------------------------------------------------------------------------------------------------
+- Happy Birthday to my Grandma - RR
+- Server Updates
+    - Updates network, logging, console logging
+    - Enhances console logging with new status logger
+    - Added babel server runtime support
+        - New build process will be coming for server - (Babel backend compiling)
+    - Added babel-debug for debugging server with chrome devtools (yay!)
+    - Status Service now mounts to API and responds to initial request on its http interface
+    - Many optimizations added for the express server
+    - Many optimizations to serving http content statically
+        - Will most likely adjust for REST in days ahead
+    - Backed out custom middleware until minor bug is fixed
+    - Minor bug fixes + cleanup
+
 v0.0.2 - Network and API Layer Beta - 09/10/2016
+------------------------------------------------------------------------------------------------------------------------
 - Server Updates
     - Initial service container server is now operational
     - Initial network and API layers completed
@@ -13,5 +35,6 @@ v0.0.2 - Network and API Layer Beta - 09/10/2016
     - Start of the status service
 
 v0.0.1
+------------------------------------------------------------------------------------------------------------------------
 - Just getting started - adding all the initial controls and classes.
 - This application can do nothing for you at this time.
