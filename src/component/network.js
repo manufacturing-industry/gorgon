@@ -11,13 +11,20 @@
  * Imports
  */
 import _ from 'lodash'
-import Middleware from './middleware'
+import {Middleware} from './middleware'
 import {Api} from './api';
+import fs from 'fs';
+import path from 'path';
 import net from 'net';
 import http from 'http';
 import SocketIO from 'socket.io';
 import compression from 'compression';
 import express from 'express';
+import favicon from 'serve-favicon';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import moment from 'moment';
 
 /*
  * Variables
@@ -171,8 +178,6 @@ export class Network {
     add(serviceId, serviceNamespace, type, label, port, middleware)
     {
         let created = false;
-        let reservePort = false;
-        let createPort = null;
         if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined)
         {
             if (port == undefined || port == null) port = 0;
@@ -247,13 +252,30 @@ export class Network {
         let setListener = true;
         if (isRest == undefined) isRest = false;
 
+        let service = this.services[serviceId];
+        console.log('service path: ' + service.filePath);
+        let date = moment();
+        let accessLogStream = fs.createWriteStream(path.join(service.filePath, 'logs/access-' + date.format('YYYYMMDD') + '.log'), {flags: 'a'})
+
+        /*
+         * Configure Server
+         */
         var server = express();
         server.use(compression({}));
+        server.use(favicon(service.filePath + '/public/img/medusa.png'));
+        server.use(bodyParser.json());
+        server.use(bodyParser.urlencoded({ extended: false }));
+        server.use(cookieParser());
+        server.use(express.static(path.join(service.filePath, 'public')));
+        server.use(morgan('combined', {stream: accessLogStream}));
+        server.set('views', path.join(service.filePath, 'views'));
+        server.set('view engine', 'pug');
+        server.disable('etag');
 
-        var component = server.all('/', function (req, res) {
-            this.middleware.callChannel('PRE_REQUEST', req);
-            this.middleware.callChannel('PRE_RESPONSE', res);
-            this.services[serviceId].serviceRequest(req, res, isRest === false ? 'http' : 'rest');
+        var component = server.all('*', function (req, res) {
+            //Middleware.callChannel('PRE_REQUEST', req);
+            //Middleware.callChannel('PRE_RESPONSE', res);
+            NetworkStack.services[serviceId].serviceRequest(req, res, isRest === false ? 'http' : 'rest');
         });
 
         if (this.isPortReserved(port))
@@ -270,6 +292,9 @@ export class Network {
         }
 
         if (_.isFunction(middleware)) component.use(middleware);
+
+
+
 
         if (setListener)
         {
@@ -490,7 +515,7 @@ export class Network {
  */
 
 /**
- * The network stack singleton instance
+ * The network stack singleton instance instantiation
  * @type {Network}
  */
 var NetworkStack = new Network();
