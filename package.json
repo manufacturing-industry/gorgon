@@ -1,12 +1,14 @@
 {
-  "name": "gorgon",
-  "version": "0.0.2",
+  "name": "Gorgon",
+  "version": "0.0.3",
   "description": "",
   "main": "lib/gorgon.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "preinstall": "cp -n src/config/config.example.js src/config/config.js && cp -n src/config/env.example.js src/config/env.js",
+    "postinstall": "echo Install complete - Run: npm run install-global - to install build tools for and electron",
     "run-debug": "node-debug lib/gorgon.js",
     "babel": "babel-node src/gorgon.js --presets es2015,stage-2",
     "babel-debug": "babel-node-debug src/gorgon.js --presets es2015,stage-2",
@@ -51,7 +53,6 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "colog": "^1.0.4",
-    "colors": "^1.1.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "electron-prebuilt": "^1.3.1",
@@ -67,7 +68,6 @@
     "serve-favicon": "^2.3.0",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
-    "twig": "^0.9.5",
     "util": "^0.10.3",
     "websocket": "^1.0.23"
   },
