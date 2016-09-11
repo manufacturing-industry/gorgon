@@ -42,7 +42,12 @@ global.Console = colog;
  */
 global.appRoot = path.resolve(__dirname);
 
-
+/**
+ * Creates the status shorthand for displaying a status message in the console window
+ * @param {string} type The type for the message
+ * @param {string} message The message to be displayed
+ * @return {boolean} Returns true on completion
+ */
 global.Console.status = (type, message)=>
 {
     switch(type)
@@ -58,6 +63,7 @@ global.Console.status = (type, message)=>
             global.Console.log('[' + global.Console.color('E', 'red') + '] ' + message);
             break;
     }
+    return true;
 };
 
 /**
