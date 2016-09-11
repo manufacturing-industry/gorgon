@@ -1,10 +1,11 @@
-#Gorgon
+#Gorgon [![Build Status](https://travis-ci.org/manufacturing-industry/gorgon.svg?branch=master)](https://travis-ci.org/manufacturing-industry/gorgon)
 An ES6 highly scriptable, configurable, and network capable service container server for Node JS.
 
 ##What is the purpose of Gorgon?
 Gorgon provides a server daemon, command line interface (CLI), and API that can be used to create robust network based services. You can create scripted services that can be used to develop software defined networks of instanced micro services.  Services run in service containers that can easily mount network and storage services.  In the future we will also include a cross node communication network layer to easily scale your services to any size needed.
 
 ##Latest News
+* Update: Initial Travis-ci support.  If the build shows as broke, don't worry - it 'should' run.
 * RELEASE: Gorgon v0.0.3 is out - you can bow build services, grab it in [releases](https://github.com/manufacturing-industry/gorgon/releases)!
 
 ##System Requirements
