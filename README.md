@@ -22,6 +22,7 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 
 ##Applications
 Gorgon is a collection of applications that allow for a robust network service infrastructure.
+
 Application  | Status
 ------------- | -------------
 Server  | Alpha
