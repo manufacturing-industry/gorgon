@@ -8,6 +8,7 @@
   },
   "scripts": {
     "run-debug": "node-debug lib/gorgon.js",
+    "build": "webpack --mode=build --progress --colors && echo BUILD COMPLETED",
     "gorgon": "node lib/gorgon.min.js",
     "gorgon-build": "webpack --mode=build --progress --colors && node lib/gorgon.min.js",
     "gorgon-build-dev": "webpack --mode=dev --progress --colors && node lib/gorgon.js",
