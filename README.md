@@ -9,7 +9,7 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 * RELEASE: Gorgon v0.0.3 is out - you can bow build services, grab it in [releases](https://github.com/manufacturing-industry/gorgon/releases)!
 
 ##System Requirements
-* Node JS
+* Node JS v5.11 or greater
 * Extra: System Build Tools (For Electron Apps - Run: npm run install-global)
 
 ##Installation
@@ -17,6 +17,9 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 - Enter the directory.
 - In your console: npm install
 - Run the server: npm run babel
+
+##Tests
+- Run the test suite: npm test
 
 ##Dev Mode
 - Run the server: npm run babel-debug
