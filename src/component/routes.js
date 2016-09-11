@@ -86,15 +86,11 @@ export class Routes {
      */
     add(inboundTypes, method, callback)
     {
-        console.log('add routes');
-        console.log(inboundTypes);
         this.routes.push(method);
         this.routeCallbacks.push(callback);
         var pos = this.routeCallbacks.length - 1;
 
         inboundTypes.forEach(function(value){
-            console.log('inbound type loop');
-            console.log(value);
             if (this.inboundTypes.indexOf(value) > -1) this.permissionMap[value].push(pos);
             else console.log('ERROR - Invalid Permission Encountered in Service: [' + this.namespace + '] Method: [' + method + ']');
         }, this);

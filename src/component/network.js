@@ -11,6 +11,7 @@
  * Imports
  */
 import _ from 'lodash'
+import {GorgonConfig} from '../config/config'
 import {Middleware} from './middleware'
 import {Api} from './api';
 import fs from 'fs';
@@ -50,6 +51,12 @@ export class Network {
     {
         if(!instance)
         {
+            /**
+             * The gorgon server config
+             * @type {GorgonConfig}
+             */
+            this.GorgonConfig = new GorgonConfig();
+
             /**
              * The middleware for the class
              * @type {Middleware}
@@ -140,13 +147,7 @@ export class Network {
              */
             if (service.networking instanceof Array)
             {
-                for(var i=0; i < service.networking.length; i++)
-                {
-                    /**
-                     * @todo RESUME HERE
-                     */
-                    this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
-                }
+                for(var i=0; i < service.networking.length; i++) this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
                 global.Logger.log('Network:addService', 200, 'Added services components: ' + service.name + ' for Service: ' + service.namespace + ' - ServiceId: ' + serviceId);
                 return true;
             }
@@ -254,9 +255,8 @@ export class Network {
         if (isRest == undefined) isRest = false;
 
         let service = this.services[serviceId];
-        console.log('service path: ' + service.filePath);
         let date = moment();
-        let accessLogStream = fs.createWriteStream(path.join(service.filePath, 'logs/access-' + date.format('YYYYMMDD') + '.log'), {flags: 'a'})
+        let accessLogStream = fs.createWriteStream(path.join(this.GorgonConfig.storage.logs, 'access-' + service.namespace + '-' + date.format('YYYYMMDD') + '.log'), {flags: 'a'});
 
         /*
          * Configure Server
@@ -269,9 +269,11 @@ export class Network {
         server.use(cookieParser());
         server.use(express.static(path.join(service.filePath, 'public')));
         server.use(morgan('combined', {stream: accessLogStream}));
-        server.use(session({
+        if (isRest) server.use(session({
             cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
-            secret:'2099GORGON-X'
+            secret:'2099GORGON-X',
+            resave: true,
+            saveUninitialized: true
         }));
         server.set('views', path.join(service.filePath, 'views'));
         server.set('view engine', 'pug');
@@ -297,9 +299,6 @@ export class Network {
         }
 
         if (_.isFunction(middleware)) component.use(middleware);
-
-
-
 
         if (setListener)
         {
