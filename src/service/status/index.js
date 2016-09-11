@@ -12,7 +12,7 @@
  */
 import {Routes} from '../../component/routes'
 import {GorgonService} from '../index';
-import {StatusServiceConfig} from 'config/config';
+import {StatusServiceConfig} from '../../config/config';
 import {Network} from '../../component/network'
 
 var NetworkStack = new Network();
@@ -91,6 +91,12 @@ class StatusService extends GorgonService {
         this.permissions = ['internal'];
 
         /**
+         * The file path for the service
+         * @type {String}
+         */
+        this.filePath = __dirname;
+
+        /**
          * Binds the services routes and networking
          */
         this.serviceBind();
@@ -104,14 +110,49 @@ class StatusService extends GorgonService {
     routes()
     {
         return {
-            'ServiceRequest':
+            'ServiceStatus':
             {
                 inboundTypes: this.inboundTypes,
-                method: '/StatusServiceRequest',
-                callback: this.serviceRequest()
+                method: '/ServiceStatus',
+                callback: this.serviceStatus,
+                note: 'Used for requesting service details.'
+            },
+            'Init':
+            {
+                inboundTypes: ['http'],
+                method: '/',
+                callback: this._pageInit,
+                note: 'Used for requesting the home page.'
             }
         };
 
+    }
+
+    serviceStatus(callType, inboundType, serviceNamespace)
+    {
+
+    }
+
+    _pageInit(method, inboundType, req, res)
+    {
+        if (inboundType != 'http' || method != '/' && req.method == 'GET')
+        {
+            global.Console.status('notice', 'Invalid Service Request in StatusService:_pageInit for Method: ' + req.method + ' - Inbound Type: ' + inboundType,
+                {
+                    requested: method,
+                    inboundType: inboundType,
+                    method: req.method
+                });
+            global.Logger.log('StatusService:_pageInit', 300, 'Invalid Page Request', {
+                requested: method,
+                inboundType: inboundType,
+                method: req.method
+            });
+            res.status(405).end();
+        }
+
+        global.Console.status('info', 'Status Service Routed: ' + method + ' - Method: ' + req.method);
+        res.status(200).render('init', { title: 'Status Service - Gorgon Server', message: 'Gorgon Server - Status Service Page'});
     }
 
     /**
@@ -126,12 +167,19 @@ class StatusService extends GorgonService {
      */
     serviceRequest(req, res, mode)
     {
+        if (req instanceof Object && res instanceof Object && this.inboundTypes.indexOf(mode) > -1)
+        {
+            this.router.route(mode, req.originalUrl, [req, res] );
+            return true;
+        }
 
+        global.Console.status('notice', 'Invalid Service Request in StatusService:serviceRequest for mode: ' + mode);
+        global.Logger.log('StatusService:serviceRequest', 300, 'Invalid Service Request', { mode: mode });
+        return false;
     }
 
     /**
      * The service api call method
-     *
      *
      * @param data
      * @todo Add routing for handling inbound requests
@@ -141,6 +189,11 @@ class StatusService extends GorgonService {
 
     }
 
+    /**
+     * Sets the web socket events after socket creation
+     *
+     * @param {object} socket The web socket
+     */
     setWebSocketEvents(socket)
     {
 
@@ -171,11 +224,13 @@ class StatusService extends GorgonService {
         return true;
     }
 
+    /**
+     * Unbinds the service from the network stack
+     */
     serviceUnbind()
     {
         NetworkStack.removeService(this.namespace);
     }
-
 }
 
 /*

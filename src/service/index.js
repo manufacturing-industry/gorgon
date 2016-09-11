@@ -154,6 +154,12 @@ export class GorgonService
          * @type {Array}
          */
         this.networking = [];
+
+        /**
+         * The file path for the service
+         * @type {String}
+         */
+        this.filePath = __dirname;
     }
 
     /**
@@ -212,7 +218,7 @@ export class GorgonService
     }
 
     /**
-     * Interface: The default apiRequest method
+     * Interface: The default setWebSocketEvents method
      *
      * @param {Object} socket The socket object to call
      * @returns {null} Returns null when not implemented
@@ -221,6 +227,4 @@ export class GorgonService
     {
         return null;
     }
-
-
 }
