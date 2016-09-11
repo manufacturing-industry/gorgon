@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "run-debug": "node-debug lib/gorgon.min.js",
+    "run-debug": "node-debug lib/gorgon.js",
     "gorgon": "node lib/gorgon.min.js",
     "gorgon-build": "webpack --mode=build --progress --colors && node lib/gorgon.min.js",
     "gorgon-build-dev": "webpack --mode=dev --progress --colors && node lib/gorgon.js",

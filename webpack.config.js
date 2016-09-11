@@ -6,19 +6,34 @@ var fs = require('fs');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 var env = require('yargs').argv.mode;
+var childProcess = require('child_process');
 
 /**
  * The library name
  * @type {string}
  */
 var libraryName = 'gorgon';
+var libraryFullName = 'Gorgon Server';
+var versionNumber = '0.0.2';
+var versionName = 'Pre-Alpha';
+var buildNumber = childProcess.execSync('git rev-list HEAD --count').toString().replace(/(\r\n|\n|\r)/gm,"");
+var motd = 'This is the message of the day.';
 
 /*
  * Webpack Plugin config
  */
 var plugins = [
     new webpack.IgnorePlugin(/\.(css|less)$/),
-    new webpack.BannerPlugin('require("source-map-support").install();', { raw: true, entryOnly: false })
+    new webpack.BannerPlugin('require("source-map-support").install();', { raw: true, entryOnly: false }),
+    new webpack.DefinePlugin({
+        __LIB_NAME__: JSON.stringify(libraryName),
+        __LIB_FULL_NAME__: JSON.stringify(libraryFullName),
+        __VERSION__: JSON.stringify(versionNumber),
+        __VERSION_ID__: JSON.stringify(buildNumber),
+        __VERSION_NAME__: JSON.stringify(versionName),
+        __VERSION_STRING__: JSON.stringify(versionNumber + ' Build: ' + buildNumber + ' - ' + versionName),
+        __MOTD__: JSON.stringify(motd)
+    })
 ], outputFile;
 
 /*
