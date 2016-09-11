@@ -1,3 +1,17 @@
+v0.0.2 - Network and API Layer Beta - 09/10/2016
+- Server Updates
+    - Initial service container server is now operational
+    - Initial network and API layers completed
+    - Initial logger class completed
+    - Initial middleware class
+    - Initial route class
+    - Initial base service class
+    - Globals added for logger and console
+    - Server console has colors
+    - Build tuning for npm and webpack
+    - Addition of forthcoming controls
+    - Start of the status service
+
 v0.0.1
 - Just getting started - adding all the initial controls and classes.
 - This application can do nothing for you at this time.
