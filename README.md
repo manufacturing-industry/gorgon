@@ -1,4 +1,4 @@
-#Gorgon [![Build Status](https://travis-ci.org/manufacturing-industry/gorgon.svg?branch=master)](https://travis-ci.org/manufacturing-industry/gorgon)
+#Gorgon [![Build Status](https://travis-ci.org/manufacturing-industry/gorgon.svg?branch=master)](https://travis-ci.org/manufacturing-industry/gorgon) [![npm version](https://img.shields.io/npm/v/gorgon.svg?style=flat-square)](https://www.npmjs.com/package/gorgon) [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]()
 An ES6 highly scriptable, configurable, and network capable service container server for Node JS.
 
 ##What is the purpose of Gorgon?
