@@ -15,11 +15,10 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 - Clone this repository
 - Enter the directory.
 - In your console: npm install
-- Build the project: npm run build
-- Run gorgon: npm run gorgon
+- Run the server: npm run babel
 
-##Build & Run (For Development)
-- Build/Run Gorgon: npm run gorgon-build
+##Dev Mode
+- Run the server: npm run babel-debug
 
 ##Current Features
 - NOTE: This is currently pre-alpha, we will update the documentation as the server becomes more stable and capable.
@@ -28,6 +27,7 @@ Feature  | Status
 ------------- | -------------
 Config  | Beta
 Logger  | Beta
+Access Logs | Alpha
 Middleware  | Alpha
 Routing  | Alpha
 Service Containers | Beta
