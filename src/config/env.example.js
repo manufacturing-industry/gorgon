@@ -7,6 +7,11 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/*
+ * Imports
+ */
+import StatusService from '../service/status/index'
+
 /**
  * The Gorgon env class
  */
@@ -17,12 +22,15 @@ export class GorgonEnv
      */
     constructor()
     {
-        /**
-         * An array of objects that contain service configurations to be loaded by this instance of the server
-         * @type {object[]}
-         */
+        let statusService = new StatusService();
         this.service = [
-            { sid: 0, name: 'Status', namespace: 'status', enable: true }
+            {
+                sid: 0,
+                name: 'Status',
+                namespace: 'StatusService',
+                enable: true,
+                service: statusService
+            }
         ];
     }
 }
