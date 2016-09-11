@@ -22,9 +22,9 @@ export class GorgonConfig
          * @type {{name: string, version: string, motd: string}}
          */
         this.data = {
-            name: 'Gorgon Server',
-            version: '0.0.1 Pre-Alpha',
-            motd: 'This is the message of the day.'
+            name: __LIB_NAME__,
+            version: __VERSION_STRING__,
+            motd: __MOTD__
         };
 
         /**
