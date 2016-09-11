@@ -19,7 +19,7 @@
     "gorgon-build-debug": "webpack --mode=dev --progress --colors && node-debug lib/gorgon.js",
     "compile": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
-    "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.js",
+    "test": "mocha --compilers js:babel-core/register --colors ./test/*.js",
     "clean": "rm -rf ./dist",
     "clean:osx": "rm -rf ./build/osx",
     "clean:win": "rm -rf ./build/win",
