@@ -17,14 +17,16 @@ export class GorgonConfig
      */
     constructor()
     {
+        process.env.NODE_ENV = 'production';
+
         /**
          * The servers default config data
          * @type {{name: string, version: string, motd: string}}
          */
         this.data = {
-            name: __LIB_NAME__,
-            version: __VERSION_STRING__,
-            motd: __MOTD__
+            name: 'Gorgon Server',
+            version: '0.0.2 Pre-Alpha',
+            motd: 'This is the message of the day.'
         };
 
         /**

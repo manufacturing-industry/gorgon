@@ -25,6 +25,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import moment from 'moment';
+import session from 'express-session';
 
 /*
  * Variables
@@ -268,6 +269,10 @@ export class Network {
         server.use(cookieParser());
         server.use(express.static(path.join(service.filePath, 'public')));
         server.use(morgan('combined', {stream: accessLogStream}));
+        server.use(session({
+            cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
+            secret:'2099GORGON-X'
+        }));
         server.set('views', path.join(service.filePath, 'views'));
         server.set('view engine', 'pug');
         server.disable('etag');
