@@ -25,6 +25,7 @@
   "parser": "babel-eslint",
   "plugins": [],
   "rules": {
-
+    "vars-on-top": 2,
+    "no-undef": 2
   }
 }
