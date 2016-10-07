@@ -14,9 +14,9 @@
 module.exports = function(grunt) {
     grunt.file.setBase('../../');
     var pkg = grunt.file.readJSON('package.json');
-    var basePath = 'public/apps/admin/js/contacts/';
+    var basePath = 'src/service/status/src/';
     var modulePath = basePath + pkg.buildConfig.modulePath;
-    var compiledFileName = basePath + pkg.buildConfig.distPath + 'contactManager' + pkg.buildConfig.fileNameMinified;
+    var compiledFileName = basePath + pkg.buildConfig.distPath + 'statusService' + pkg.buildConfig.fileNameMinified;
 
     /*
      * THE BUILD CONFIGURATION
@@ -27,8 +27,8 @@ module.exports = function(grunt) {
          */
         watch: {
             scripts: {
-                files: 'public/apps/admin/js/contacts/modules/*.js',
-                tasks: ['concat', 'file_append'],
+                files: 'src/service/status/src/modules/*.js',
+                tasks: ['concat', 'babel'],
                 options: {
                     spawn: false,
                     debounceDelay: 250
@@ -42,28 +42,25 @@ module.exports = function(grunt) {
             dist: {
                 src: [
                     '<%= modulePath %>' + 'init.js',
-                    '<%= modulePath %>' + 'ContactManagerControl.js',
-                    '<%= modulePath %>' + 'AppControl.js',
-                    '<%= modulePath %>' + 'PageControl.js',
                     '<%= modulePath %>' + '*.js'
                 ],
                 dest: compiledFileName
             }
         },
-        file_append: {
-            default_options: {
-                files: [
-                    {
-                        prepend: "$(document).ready(function() {",
-                        append: "\n});",
-                        input: compiledFileName
-                    }
-                ]
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['babel-preset-es2015']
+            },
+            dist: {
+                files: {
+                    '<%= target %>': '<%= modulePath %>' + 'init.js',
+                }
             }
         },
         uglify: {
             options: {
-                banner: '/*! <%= appName %> - Compiled: <%= grunt.template.today("yyyy-mm-dd") %> - Copyright: <%= copyright %> <%=grunt.template.today("yyyy")%> - <%= website %> */\n',
+                banner: '/*! <%= appName %> - Compiled: <%= grunt.template.today("yyyy-mm-dd") %> - Author: <%= author %> <%=grunt.template.today("yyyy")%> - <%= website %> */\n',
                 compress:true,
                 mangle: {
                     except: ['jQuery']
@@ -87,6 +84,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-file-append');
+    grunt.loadNpmTasks('grunt-babel');
 
     /*
      * THE DEFAULT GRUNT TASK
@@ -109,7 +107,7 @@ module.exports = function(grunt) {
         grunt.setGruntConfigs(target);
 
         //Run the tasks
-        grunt.task.run('concat', 'file_append', 'uglify');
+        grunt.task.run('concat', 'babel', 'uglify');
     });
 
     grunt.setGruntConfigs = function(target)
@@ -118,8 +116,8 @@ module.exports = function(grunt) {
         grunt.config.set('basePath', basePath);
         grunt.config.set('modulePath', modulePath);
         grunt.config.set('target', compiledFileName);
-        grunt.config.set('appName', 'ContactManager');
-        grunt.config.set('copyright', pkg.author);
+        grunt.config.set('appName', 'StatusService');
+        grunt.config.set('author', pkg.author);
         grunt.config.set('website', pkg.website);
         return true;
     }
