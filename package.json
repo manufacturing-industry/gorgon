@@ -1,6 +1,7 @@
 {
   "name": "gorgon",
-  "version": "0.0.3",
+  "appName": "Gorgon Server",
+  "version": "0.1.0",
   "description": "",
   "main": "lib/gorgon.js",
   "engines": {
@@ -16,7 +17,8 @@
     "babel": "babel-node src/gorgon.js --presets es2015,stage-2",
     "babel-debug": "babel-node-debug src/gorgon.js --presets es2015,stage-2",
     "compile": "better-npm-run compile",
-    "compile-dev": "NODE_ENV=development webpack --config webpack.config.dev.js",
+    "compile-dev": "better-npm-run compile-dev",
+    "BuildUpdate": "grunt --gruntfile build/grunt/BuildUpdate.js",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.js",
     "test-better": "better-npm-run test",
     "install-global": "npm install node-gyp -g && npm install asar -g && npm install electron-packager -g && npm install electron-builder -g"
@@ -29,7 +31,7 @@
       }
     },
     "compile-dev": {
-      "command": "webpack --mode=build --progress --colors --config build/webpack.config.dev.js",
+      "command": "webpack-dev-server --inline --hot --mode=build --progress --colors --config build/webpack.config.dev.js",
       "env": {
         "DEBUG": "app:*"
       }
@@ -50,6 +52,17 @@
   ],
   "author": "Ryan Rentfro",
   "license": "MIT",
+  "buildConfig": {
+    "buildName": "Adamite",
+    "buildType": "pre-alpha",
+    "buildDataFile": "build/build.json",
+    "distPath": "dist/",
+    "modulePath": "modules/",
+    "fileNameMinified": ".min.js"
+  },
+  "publicVersion": "0.1",
+  "minorVersion": 1,
+  "buildNumber": "88",
   "bugs": {
     "url": "https://github.com/manufacturing-industry/gorgon/issues"
   },
@@ -100,7 +113,7 @@
     "pug": "^2.0.0-beta6",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.3.0",
-    "react-dom": "^15.0.0",
+    "react-dom": "^15.3.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.2.0",
     "react-router-redux": "^4.0.0",
@@ -118,6 +131,7 @@
     "util": "^0.10.3",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.7.0",
+    "webpack-dev-server": "^1.15.1",
     "webpack-hot-middleware": "^2.12.2",
     "websocket": "^1.0.23",
     "yargs": "^5.0.0"
@@ -152,8 +166,24 @@
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-standard": "^2.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-csslint": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-eslint": "^19.0.0",
+    "grunt-file-append": "^0.0.6",
+    "grunt-gitinfo": "^0.1.8",
+    "grunt-json-generator": "^0.1.0",
+    "grunt-remove": "^0.1.0",
+    "grunt-update-json": "^0.2.2",
     "isparta-loader": "^2.0.0",
     "jshint": "^2.9.3",
+    "json-loader": "^0.5.4",
     "karma": "^1.0.0",
     "karma-coverage": "^1.0.0",
     "karma-mocha": "^1.0.1",

@@ -7,6 +7,9 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 var env = require('yargs').argv.mode;
 var SharedSettings = require('./shared');
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 
 
 /*
@@ -27,8 +30,7 @@ var binName = 'compiled';
  * Webpack Plugin config
  */
 var plugins = [
-    new webpack.IgnorePlugin(/\.(css|less)$/),
-    new webpack.BannerPlugin('require("source-map-support").install();', { raw: true, entryOnly: false }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
         __LIB_NAME__: JSON.stringify(libraryName),
         __LIB_FULL_NAME__: JSON.stringify(libraryFullName),
@@ -66,9 +68,7 @@ var StatusServiceConfig = {
     output: {
         path: './src/service/status/public/js',
         filename: binName + '.js',
-        publicPath: '/static/assets/',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
+        publicPath: 'src/service/status/public'
     },
     module: {
         loaders: [
@@ -85,7 +85,7 @@ var StatusServiceConfig = {
         ]
     },
     resolve: {
-        root: path.resolve('./src'),
+        root: path.resolve('./src/service/status/src'),
         extensions: ['', '.js']
     },
     plugins: plugins,
