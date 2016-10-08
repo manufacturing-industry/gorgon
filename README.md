@@ -5,8 +5,8 @@ An ES6 highly scriptable, configurable, and network capable service container se
 Gorgon provides a server daemon, command line interface (CLI), and API that can be used to create robust network based services. You can create scripted services that can be used to develop software defined networks of instanced micro services.  Services run in service containers that can easily mount network and storage services.  In the future we will also include a cross node communication network layer to easily scale your services to any size needed.
 
 ##Latest News
+* RELEASE: Gorgon v0.1.2 is out - adds the status service, which can be used as an example to build more services - grab it in [releases](https://github.com/manufacturing-industry/gorgon/releases)!
 * Update: Initial Travis-ci support.  If the build shows as broke, don't worry - it 'should' run.
-* RELEASE: Gorgon v0.0.3 is out - you can bow build services, grab it in [releases](https://github.com/manufacturing-industry/gorgon/releases)!
 
 ##System Requirements
 * Node JS v5.11 or greater
