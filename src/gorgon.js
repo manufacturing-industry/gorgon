@@ -156,7 +156,7 @@ class Gorgon {
      */
     _bootstrap()
     {
-        global.Console.log(global.Console.color('Gorgon Server' + ' - v' + this.GorgonConfig.data.version, 'green'));
+        global.Console.log(global.Console.color('Gorgon Server' + ' v' + this.GorgonConfig.data.version, 'green'));
         global.Console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
         global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();

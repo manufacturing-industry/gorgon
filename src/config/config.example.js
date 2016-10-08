@@ -7,6 +7,13 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/*
+ * Imports
+ */
+import * as fs from 'fs';
+var json = fs.readFileSync('build/build.json');
+var buildData = json.length > 0 ? JSON.parse(json) : {};
+
 /**
  * The Gorgon config class
  */
@@ -25,7 +32,7 @@ export class GorgonConfig
          */
         this.data = {
             name: 'Gorgon Server',
-            version: '0.0.3 Pre-Alpha',
+            version: buildData.publicVersion + '.' + buildData.minorVersion + ' ' + buildData.buildType +  ' - Build: ' + buildData.buildNumber + ' - ' + buildData.buildName,
             motd: 'This is the message of the day.'
         };
 

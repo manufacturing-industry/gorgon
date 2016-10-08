@@ -7,6 +7,9 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 var env = require('yargs').argv.mode;
 var SharedSettings = require('./shared');
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 
 /*
  * Webpack Variables
@@ -26,8 +29,6 @@ var binName = 'compiled';
  * Webpack Plugin config
  */
 var plugins = [
-    new webpack.IgnorePlugin(/\.(css|less)$/),
-    new webpack.BannerPlugin('require("source-map-support").install();', { raw: true, entryOnly: false }),
     new webpack.DefinePlugin({
         __LIB_NAME__: JSON.stringify(libraryName),
         __LIB_FULL_NAME__: JSON.stringify(libraryFullName),
@@ -48,44 +49,39 @@ outputFile = binName + '.js';
  * Imports the node modules for compiling server side
  */
 var nodeModules = {
-    'react': 'React',
-    'react-dom': 'ReactDOM'
+    'react': React,
+    'react-dom': ReactDOM
 };
 
 var StatusServiceConfig = {
     entry: {
         StatusService: './src/service/status/src/index.js'
     },
-    debug: true,
+    debug: false,
+    cache: false,
     target: 'web',
     output: {
         path: './src/service/status/public/js',
         filename: binName + '.js',
-        publicPath: '/static/assets/',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
+        publicPath: '/js',
+        libraryTarget: 'var'
     },
     module: {
         loaders: [
             {
-                test: /(\.jsx|\.js)$/,
+                test: /\.js$/,
                 loader: 'babel',
-                exclude: /(node_modules|bower_components)/
-            },
-            {
-                test: /(\.jsx|\.js)$/,
-                loader: "eslint-loader",
-                exclude: /node_modules/
+                include: './src/service/status/src'
             }
         ]
     },
     resolve: {
-        root: path.resolve('./src'),
+        root: path.resolve('./src/service/status/src'),
         extensions: ['', '.js']
     },
     plugins: plugins,
     externals: nodeModules,
-    devtool: '#inline-source-map'
+    devtool: 'source-map',
 };
 
 /*
