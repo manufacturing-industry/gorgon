@@ -12,11 +12,15 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 * Node JS v5.11 or greater
 * Extra: System Build Tools (For Electron Apps - Run: npm run install-global)
 
-##Installation
+##Installation via Git
 - Clone this repository
 - Enter the directory.
 - In your console: npm install
 - Run the server: npm run babel
+
+##Installation via NPM
+- npm install gorgon
+- NOTE: NPM installation has not been tested or refined yet.
 
 ##Tests
 - Run the test suite: npm test
