@@ -22,6 +22,9 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 - npm install gorgon
 - NOTE: NPM installation has not been tested or refined yet.
 
+##Installation from Source
+- You can obtain the full source code/package in [releases](https://github.com/manufacturing-industry/gorgon/releases).
+
 ##Tests
 - Run the test suite: npm test
 
