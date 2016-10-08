@@ -1,0 +1,114 @@
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary header-bg">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            <h1>Gorgon Service Status Monitor</h1>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+            <a href="#overview" class="mdl-layout__tab is-active">Status</a>
+            <a href="#about" class="mdl-layout__tab">About</a>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active" id="overview">
+
+            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--indigo-500 mdl-color-text--white mdl-typography--text-center">
+                    <i class="material-icons service-status-logo">settings_input_svideo</i>
+                </header>
+                <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card__supporting-text">
+                        <h2>Service Status</h2>
+                        Welcome to the Service Status app. This app provides real-time information about services and their operational statuses.
+                    </div>
+                    <div class="mdl-card__actions">
+                        <p><strong>Last Updated: </strong>01/02/2017 @ 05:30:20pm PST</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                <div class="mdl-card mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+                        <h3 class="mdl-cell mdl-cell--12-col">All Services Operational</h3>
+                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                            <div class="section__circle-container__circle color-status-up"></div>
+                        </div>
+                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <h4 class="service-title">Server Status Service</h4>
+                            Provides information on service status.
+                        </div>
+                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                            <div class="section__circle-container__circle color-status-up"></div>
+                        </div>
+                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <h4 class="service-title">Service Container Service</h4>
+                            Provides container operations to services.
+                        </div>
+                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                            <div class="section__circle-container__circle color-status-up"></div>
+                        </div>
+                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <h4 class="service-title">Networking Sub-System</h4>
+                            Provides networking capabilities to services.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="mdl-layout__tab-panel" id="about">
+            <section class="section--center mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <h4>About the Service Monitor</h4>
+                    The service monitor provides real-time insight into the operational status of the servers configured services.
+                    <ul class="toc">
+                        <h4>Table of Contents</h4>
+                        <a href="#topic1">What Services are Displayed?</a>
+                        <a href="#topic2">What Statuses are Displayed?</a>
+                    </ul>
+
+                    <h5 id="topic1">What Services are Displayed?</h5>
+                    <p>The services displayed are configured to run on this server node. The listed statuses are the services that have been brought online and are running within a configured service container.</p>
+
+                    <h5 id="lorem2">What Statuses are Displayed?</h5>
+                    <p>The statuses that will be displayed are operational (green), impacted (yellow), failing (red).</p>
+                    <ul>
+                        <li>
+                            <p><strong class="text-status-up">GREEN:</strong> Operational</p>
+                            <p>Operational services are fulfilling their performance indicators.</p>
+                        </li>
+                        <li>
+                            <p><strong class="">YELLOW:</strong> Impacted</p>
+                            <p>Impacted services are experiencing alerts indicating issues.</p>
+                        </li>
+                        <li>
+                            <p><strong class="">RED:</strong> Failing</p>
+                            <p>Failing services are experiencing alerts and may not be operational or malfunctioning.</p>
+                        </li>
+                        <li>
+                            <p><strong class="">PURPLE:</strong> Offline</p>
+                            <p>Offline services have been disabled by the system configuration.</p>
+                        </li>
+                    </ul>
+
+                </div>
+            </section>
+        </div>
+        <footer class="mdl-mini-footer">
+            <div class="mdl-mini-footer__left-section">
+                <div class="mdl-logo">Gorgon Server</div>
+                <ul class="mdl-mini-footer__link-list">
+                    <li><a href="https://github.com/manufacturing-industry/gorgon" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+</div>
+</body>

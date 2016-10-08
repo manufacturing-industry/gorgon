@@ -14,9 +14,9 @@
 module.exports = function(grunt) {
     grunt.file.setBase('../../');
     var pkg = grunt.file.readJSON('package.json');
-    var basePath = 'src/service/status/src/';
-    var modulePath = basePath + pkg.buildConfig.modulePath;
-    var compiledFileName = basePath + pkg.buildConfig.distPath + 'statusService' + pkg.buildConfig.fileNameMinified;
+    var basePath = 'src/service/status/';
+    var modulePath = basePath + 'src/' + pkg.buildConfig.modulePath;
+    var compiledFileName = basePath + pkg.buildConfig.distPath + 'service' + pkg.buildConfig.fileNameMinified;
 
     /*
      * THE BUILD CONFIGURATION
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                     '<%= modulePath %>' + 'init.js',
                     '<%= modulePath %>' + '*.js'
                 ],
-                dest: compiledFileName
+                dest: '<%= target %>'
             }
         },
         babel: {

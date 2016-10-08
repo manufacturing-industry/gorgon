@@ -56,7 +56,7 @@
     "buildName": "Adamite",
     "buildType": "pre-alpha",
     "buildDataFile": "build/build.json",
-    "distPath": "dist/",
+    "distPath": "public/js/",
     "modulePath": "modules/",
     "fileNameMinified": ".min.js"
   },
