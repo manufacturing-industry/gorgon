@@ -1,114 +1,329 @@
-<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary header-bg">
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--indigo-800 mdl-color-text--white-100">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Gorgon Service Status Monitor</span>
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="search">
+                    <label class="mdl-textfield__label" for="search">Enter your query...</label>
+                </div>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                <li class="mdl-menu__item">Node</li>
+                <li class="mdl-menu__item">About</li>
+                <li class="mdl-menu__item">GitHub</li>
+            </ul>
         </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-            <h1>Gorgon Service Status Monitor</h1>
-        </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-        </div>
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#overview" class="mdl-layout__tab is-active">Status</a>
-            <a href="#about" class="mdl-layout__tab">About</a>
+
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Home</a>
+            <a href="#fixed-tab-2" class="mdl-layout__tab">Stats</a>
+            <a href="#fixed-tab-3" class="mdl-layout__tab">Node</a>
+            <a href="#fixed-tab-4" class="mdl-layout__tab">About</a>
         </div>
     </header>
-    <main class="mdl-layout__content">
-        <div class="mdl-layout__tab-panel is-active" id="overview">
+    <div class="demo-drawer mdl-layout__drawer mdl-color--indigo-600 mdl-color-text--white-100">
+        <header class="demo-drawer-header">
+            <h5>Service Monitor</h5>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--indigo-800">
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white-400 material-icons" role="presentation">home</i>Home</a>
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white-400 material-icons" role="presentation">assessment</i>Stats</a>
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white-400 material-icons" role="presentation">device_hub</i>Node</a>
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white-400 material-icons" role="presentation">face</i>About</a>
+            <div class="mdl-layout-spacer"></div>
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+            <div class="page-content">
 
-            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--indigo-500 mdl-color-text--white mdl-typography--text-center">
-                    <i class="material-icons service-status-logo">settings_input_svideo</i>
-                </header>
-                <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-                    <div class="mdl-card__supporting-text">
-                        <h2>Service Status</h2>
-                        Welcome to the Service Status app. This app provides real-time information about services and their operational statuses.
-                    </div>
-                    <div class="mdl-card__actions">
-                        <p><strong>Last Updated: </strong>01/02/2017 @ 05:30:20pm PST</p>
-                    </div>
-                </div>
+                <div class="mdl-grid demo-content">
 
-            </section>
-
-            <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                <div class="mdl-card mdl-cell mdl-cell--12-col">
-                    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-                        <h3 class="mdl-cell mdl-cell--12-col">All Services Operational</h3>
-                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                            <div class="section__circle-container__circle color-status-up"></div>
-                        </div>
-                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                            <h4 class="service-title">Server Status Service</h4>
-                            Provides information on service status.
-                        </div>
-                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                            <div class="section__circle-container__circle color-status-up"></div>
-                        </div>
-                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                            <h4 class="service-title">Service Container Service</h4>
-                            Provides container operations to services.
-                        </div>
-                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                            <div class="section__circle-container__circle color-status-up"></div>
-                        </div>
-                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                            <h4 class="service-title">Networking Sub-System</h4>
-                            Provides networking capabilities to services.
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid section-title">
+                            <h2>Service Status Monitor</h2>
+                            <p>Welcome to the service monitor. Here you will find real time insight into the services operating on this Gorgon Server node.</p>
                         </div>
                     </div>
+
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid card-container">
+
+
+                        <div class="mdl-cell mdl-cell--6-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand status-up">
+                                    <h3><i class="material-icons">verified_user</i> Monitoring</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text">
+                                    The monitoring sub-system is operational.
+                                    <p class="check-status"><strong>Last Check: </strong><span class="service-time">01/02/2016</span></p>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Stats
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">assessment</i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mdl-cell mdl-cell--6-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand status-up">
+                                    <h3><i class="material-icons">verified_user</i> Networking</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text">
+                                    The networking sub-system is operational.
+                                    <p class="check-status"><strong>Last Check: </strong><span class="service-time">01/02/2016</span></p>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Stats
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">assessment</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--6-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand status-up">
+                                    <h3><i class="material-icons">verified_user</i> Sessions</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text">
+                                    The session sub-system is operational.
+                                    <p class="check-status"><strong>Last Check: </strong><span class="service-time">01/02/2016</span></p>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Stats
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">assessment</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--6-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand status-up">
+                                    <h3><i class="material-icons">verified_user</i> Storage</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text">
+                                    The storage sub-system is operational.
+                                    <p class="check-status"><strong>Last Check: </strong><span class="service-time">01/02/2016</span></p>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Stats
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">assessment</i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
                 </div>
-            </section>
-
-        </div>
-
-        <div class="mdl-layout__tab-panel" id="about">
-            <section class="section--center mdl-grid mdl-grid--no-spacing">
-                <div class="mdl-cell mdl-cell--12-col">
-                    <h4>About the Service Monitor</h4>
-                    The service monitor provides real-time insight into the operational status of the servers configured services.
-                    <ul class="toc">
-                        <h4>Table of Contents</h4>
-                        <a href="#topic1">What Services are Displayed?</a>
-                        <a href="#topic2">What Statuses are Displayed?</a>
-                    </ul>
-
-                    <h5 id="topic1">What Services are Displayed?</h5>
-                    <p>The services displayed are configured to run on this server node. The listed statuses are the services that have been brought online and are running within a configured service container.</p>
-
-                    <h5 id="topic2">What Statuses are Displayed?</h5>
-                    <p>The statuses that will be displayed are operational (green), impacted (yellow), failing (red).</p>
-                    <ul>
-                        <li>
-                            <p><strong class="text-status-up">GREEN:</strong> Operational</p>
-                            <p>Operational services are fulfilling their performance indicators.</p>
-                        </li>
-                        <li>
-                            <p><strong class="">YELLOW:</strong> Impacted</p>
-                            <p>Impacted services are experiencing alerts indicating issues.</p>
-                        </li>
-                        <li>
-                            <p><strong class="">RED:</strong> Failing</p>
-                            <p>Failing services are experiencing alerts and may not be operational or malfunctioning.</p>
-                        </li>
-                        <li>
-                            <p><strong class="">PURPLE:</strong> Offline</p>
-                            <p>Offline services have been disabled by the system configuration.</p>
-                        </li>
-                    </ul>
-
-                </div>
-            </section>
-        </div>
-        <footer class="mdl-mini-footer">
-            <div class="mdl-mini-footer__left-section">
-                <div class="mdl-logo">Gorgon Server</div>
-                <ul class="mdl-mini-footer__link-list">
-                    <li><a href="https://github.com/manufacturing-industry/gorgon" target="_blank">GitHub</a></li>
-                </ul>
             </div>
-        </footer>
+        </section>
+        <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+            <div class="page-content">
+                <div class="mdl-grid demo-content">
+
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid section-title">
+                            <h2>Service Statistics</h2>
+                            <p>Operational statistics for this nodes services</p>
+                        </div>
+                    </div>
+
+
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid card-container">
+
+
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand mdl-color--indigo-800 mdl-color-text--white-200">
+                                    <h3><i class="material-icons">assessment</i> Monitoring</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Status
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">settings_input_component</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand mdl-color--indigo-800 mdl-color-text--white-200">
+                                    <h3><i class="material-icons">assessment</i> Networking</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Status
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">settings_input_component</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand mdl-color--indigo-800 mdl-color-text--white-200">
+                                    <h3><i class="material-icons">assessment</i> Sessions</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Status
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">settings_input_component</i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid card-container">
+                            <div class="status-card mdl-card mdl-shadow--2dp">
+                                <div class="mdl-card__title mdl-card--expand mdl-color--indigo-800 mdl-color-text--white-200">
+                                    <h3><i class="material-icons">assessment</i> Storage</h3>
+                                </div>
+                                <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                                        Services Running: 12
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        View Status
+                                    </a>
+                                    <div class="mdl-layout-spacer"></div>
+                                    <i class="material-icons">settings_input_component</i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+
+            <div class="page-content">
+                <div class="mdl-grid demo-content">
+
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid section-title">
+                            <h2>Node Insights</h2>
+                            <p>Information regarding this servers operations and configurations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="fixed-tab-4">
+
+            <div class="page-content">
+                <div class="mdl-grid demo-content">
+
+                    <div class="status-zone mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-grid section-title">
+                            <h2>About Service Monitor</h2>
+                            <p>Service Monitor is an open source app for Gorgon.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
     </main>
 </div>
+
 </body>
