@@ -267,7 +267,7 @@ export class Network {
         server.use(bodyParser.json());
         server.use(bodyParser.urlencoded({ extended: false }));
         server.use(cookieParser());
-        server.use(express.static(path.join(service.filePath, 'public')));
+        server.use(express.static(path.join(service.filePath, '/public')));
         server.use(morgan('combined', {stream: accessLogStream}));
         if (isRest) server.use(session({
             cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
