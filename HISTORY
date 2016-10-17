@@ -3,6 +3,13 @@ GORGON SERVER HISTORY
 This be a tale about networking and things!
 ========================================================================================================================
 
+v0.1.3 - Status Service Alpha 3 - new UI/UX - 10/16/2016
+------------------------------------------------------------------------------------------------------------------------
+- Updates the status service page - it is now the service monitor
+- Updated the service monitor ui and ux
+- Migrates express template engine from pug to twig
+- Cleans up default package requirements removing react and redux
+
 v0.1.2 - Status Service Alpha 2 and Updates Components - 10/08/2016
 ------------------------------------------------------------------------------------------------------------------------
 - Adds the initial status service page
@@ -11,7 +18,6 @@ v0.1.2 - Status Service Alpha 2 and Updates Components - 10/08/2016
     - Build scripts for grunt work and are actually more productive for what we are doing
     - Main webpack build config still works but may be replaced for a grunt toolchain build process
     - Adds build update, which we use to update the build details
-    -
 
 v0.0.3 - Status Service Alpha and Updates Components - 09/11/2016
 ------------------------------------------------------------------------------------------------------------------------
