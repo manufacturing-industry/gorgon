@@ -133,6 +133,15 @@ class StatusService extends GorgonService {
 
     }
 
+    /**
+     * Initializes the web app
+     *
+     * @param {string} method The method being called from the URL
+     * @param {string} inboundType How the request has inbound
+     * @param {object} req The request object
+     * @param {object} res The response object
+     * @private
+     */
     _pageInit(method, inboundType, req, res)
     {
         if (inboundType != 'http' || method != '/' && req.method == 'GET')
@@ -152,7 +161,7 @@ class StatusService extends GorgonService {
         }
 
         global.Console.status('info', 'Status Service Routed: ' + method + ' - Method: ' + req.method);
-        res.status(200).render('init', { title: 'Status Service - Gorgon Server', message: 'Gorgon Server - Status Service Page'});
+        res.status(200).render('init.twig', { title: 'Gorgon Service Monitor', message: 'Gorgon Service Monitor'});
     }
 
     /**

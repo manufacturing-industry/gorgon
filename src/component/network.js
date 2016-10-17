@@ -27,6 +27,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import moment from 'moment';
 import session from 'express-session';
+import twig from 'twig';
 
 /*
  * Variables
@@ -276,7 +277,7 @@ export class Network {
             saveUninitialized: true
         }));
         server.set('views', path.join(service.filePath, 'views'));
-        server.set('view engine', 'pug');
+        server.set('view engine', 'twig');
         server.disable('etag');
 
         var component = server.all('*', function (req, res) {

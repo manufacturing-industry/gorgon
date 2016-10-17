@@ -1,0 +1,9 @@
+{% extends "skeleton.twig" %}
+{% block content %}
+    <main class="mdl-layout__content mdl-color--grey-100">
+        {% include 'tabs/home.twig' %}
+        {% include 'tabs/stats.twig' %}
+        {% include 'tabs/node.twig' %}
+        {% include 'tabs/about.twig' %}
+    </main>
+{% endblock %}
