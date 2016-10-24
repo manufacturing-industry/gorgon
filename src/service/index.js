@@ -11,6 +11,7 @@
  * Imports
  */
 import moment from 'moment';
+import ErrorHandler from '../component/error-handler';
 
 /**
  * The Gorgon Container Service Class
@@ -25,8 +26,11 @@ export class GorgonContainerService {
     {
         this.containers = [];
         this.containerMap = [];
+        this.errorHandler = new ErrorHandler('ContainerService', 'GorgonContainerService');
         this.name = "Gorgon Container Service";
         this.type = "Service";
+
+        this.errorHandler.add('400', 'GorgonContainerService:constructor', 'Test error', []);
     }
 
     /**
