@@ -10,7 +10,7 @@
 /**
  * The Gorgon Storage Driver Base Class
  */
-export class GorgonStorage {
+export default class GorgonStorage {
     /**
      * Constructs the class
      */
