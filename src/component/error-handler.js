@@ -119,7 +119,7 @@ export default class ErrorHandler
         this.service = service;
         this.className = className;
         this.storage.name = service + ':' + className;
-        console.log('Error handler mounted')
+        //console.log('Error handler mounted')
     }
 
     add(level, location, message, data)
@@ -132,10 +132,29 @@ export default class ErrorHandler
         this.storage.hour.addRecord(error);
         this.storage.min.addRecord(error);
         this._incrementTotal(level);
-        console.log('added an error');
-        console.log(error);
-        console.log(this.storage);
+        //console.log('added an error');
+        //console.log(error);
+        //console.log(this.storage);
         return true;
+    }
+
+    /**
+     * Returns the statistics for the error handler
+     *
+     * @return {{levels: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, month: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, week: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, day: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, hour: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, min: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}}}
+     */
+    getStats()
+    {
+        this._pollTotals();
+
+        return {
+            levels: this.totals,
+            month: this.month,
+            week: this.week,
+            day: this.day,
+            hour: this.hour,
+            min: this.min,
+        }
     }
 
     _incrementTotal(level)
@@ -143,7 +162,6 @@ export default class ErrorHandler
         if (this.levels.indexOf(level) > -1)
         {
             this.totals[level] = parseFloat(this.totals[level]) + 1;
-            this._pollTotals();
             return true;
         }
         return false;
@@ -151,11 +169,44 @@ export default class ErrorHandler
 
     /**
      * Traverses the storage and updates the stats
+     *
      * @private
      */
     _pollTotals()
     {
+        var storage = {};
 
+        storage = this.storage.month;
+        this.month = this._errorTotals(storage.data);
+
+        storage = this.storage.week;
+        this.week = this._errorTotals(storage.data);
+
+        storage = this.storage.day;
+        this.day = this._errorTotals(storage.data);
+
+        storage = this.storage.hour;
+        this.hour = this._errorTotals(storage.data);
+
+        storage = this.storage.min;
+        this.min = this._errorTotals(storage.min);
+    }
+
+    /**
+     * Process errors in from stack
+     *
+     * @param {TimeStorageDriver} errors A time storage driver whos data is error storage
+     */
+    _errorTotals(errors) {
+        var totals = {
+            100: 0, 200: 0, 250: 0, 300: 0, 400: 0, 500: 0, 550: 0, 600: 0
+        };
+
+        errors.forEach(function (value, index) {
+            if (totals.hasOwnProperty(value.level)) totals[value.level]++;
+        });
+
+        return totals;
     }
 }
 
