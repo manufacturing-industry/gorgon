@@ -61,8 +61,8 @@
 		"fileNameMinified": ".min.js"
 	},
 	"publicVersion": "0.1",
-	"minorVersion": 3,
-	"buildNumber": "102",
+	"minorVersion": 4,
+	"buildNumber": "111",
 	"bugs": {
 		"url": "https://github.com/manufacturing-industry/gorgon/issues"
 	},
