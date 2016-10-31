@@ -159,7 +159,7 @@ class TimeStorageDriver extends MemoryStorageDriver
 
         var cutTime = currentTime - this._getExpireMax();
 
-        //var timeType = this.timeType;
+        var timeType = this.timeType;
         //console.log('Data map check - current time: ' + currentTime + ' - Cut Time: ' + cutTime);
 
         var removeList = [];
