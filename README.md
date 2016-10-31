@@ -40,7 +40,7 @@ Server  | Alpha
 Web CLI | Development
 WebSocket Client | Development
 
-##Current Features
+##Core Features
 - NOTE: This is currently pre-alpha, we will update the documentation as the server becomes more stable and capable.
 
 Feature  | Status
@@ -51,12 +51,18 @@ Access Logs | Alpha
 Middleware  | Alpha
 Routing  | Alpha
 Service Containers | Beta
-Network Components  | Beta
-Storage  | Beta
+Network Service Layer  | Beta
+Storage Service Layer  | Beta
+Error Handler Components | Beta
 Status Service | Alpha
 Sessions | Development
 
-###Networking Support
+###Applications & Services
+Application  | Status
+------------- | -------------
+Service Monitor | Beta
+
+###Networking Service Layer
 Feature  | Status
 ------------- | -------------
 Web Sockets | Beta
@@ -65,6 +71,13 @@ HTTP/1.1 | Beta
 TCP/IP Sockets | Beta
 HTTP/2.0 | Development
 Streams | Development
+
+###Storage Service Layer
+Feature  | Status
+------------- | -------------
+Base Storage Driver | Beta
+Memory Storage Driver | Beta
+Timed Storage Driver | Beta
 
 ##Planned API Integrations
 Feature  | Status
