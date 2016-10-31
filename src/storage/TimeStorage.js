@@ -92,9 +92,6 @@ class TimeStorageDriver extends MemoryStorageDriver
          * @note This starts the interval that will check and expire stored data
          */
         this._timedTrigger();
-
-
-        this.addRecord({ val: 'test'}); //Add an example record
     }
 
     /**
@@ -128,21 +125,16 @@ class TimeStorageDriver extends MemoryStorageDriver
     /**
      * The timed trigger for clearing old records
      *
-     * @todo RESUME HERE AND ADD THE REMOVAL AND TOTALING OF STATS FOR A SERVICE
      * @private
+     * @note Creates a interval that will clear expired records on a timed schedule
      */
     _timedTrigger()
     {
-        //console.log('setting bound trigger');
         var self = this;
         setInterval(function()
         {
             self._clearExpired()
         }.bind(null, self), this._getOperationInterval());
-
-
-        //console.log('operational interval');
-        //console.log(this._getOperationInterval());
     }
 
     /**
@@ -178,8 +170,8 @@ class TimeStorageDriver extends MemoryStorageDriver
         {
             for(let i=0; i < removeList.length; i++)
             {
-                this.dataMap.slice(removeList[i]);
-                this.data.slice(removeList[i]);
+                this.dataMap.splice(removeList[i], 1);
+                this.data.splice(removeList[i], 1);
             }
         }
 
