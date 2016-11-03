@@ -128,9 +128,26 @@ class StatusService extends GorgonService {
 
     }
 
-    serviceStatus(callType, inboundType, serviceNamespace)
+    /**
+     * Initializes the web app
+     *
+     * @param {string} method The method being called from the URL
+     * @param {string} inboundType How the request has inbound
+     * @param {object} req The request object
+     * @param {object} res The response object
+     */
+    serviceStatus(method, inboundType, req, res)
     {
+        console.warn('service status was called');
+        console.log('Method: ' + method + ' - Inbound Type: ' + inboundType);
+        console.log('Request');
+        console.log(req);
 
+
+        if (req.method == 'GET')
+        {
+
+        }
     }
 
     /**
