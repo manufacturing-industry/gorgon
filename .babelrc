@@ -1,6 +1,5 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["babel-plugin-add-module-exports",     ["transform-react-jsx", {
-    "pragma": "dom" // default pragma is React.createElement
-  }]]
+  "presets": [
+    "es2015"
+  ]
 }

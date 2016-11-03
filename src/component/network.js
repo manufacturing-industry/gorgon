@@ -263,7 +263,7 @@ export class Network {
          * Configure Server
          */
         var server = express();
-        server.use(compression({}));
+        //server.use(compression({}));
         server.use(favicon(service.filePath + '/public/img/medusa.png'));
         server.use(bodyParser.json());
         server.use(bodyParser.urlencoded({ extended: false }));
@@ -337,14 +337,14 @@ export class Network {
             let serviceNamespace = this.portReservationNamespace[pos];
             if (serviceNamespace != namespace)
             {
-                global.Logger.log('Network:_createRestComponent', 400, 'Unable to create component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace);
+                global.Logger.log('Network:_createWebSocketComponent', 400, 'Unable to create component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace);
                 return false;
             }
         }
 
         //create webSocket component
         var server = express();
-        server.use(compression({}));
+        //server.use(compression({}));
 
         var httpServer = http.Server(server);
         var webSocket = new SocketIO(httpServer);
@@ -352,17 +352,20 @@ export class Network {
         let users = [];
         let sockets = {};
 
-        webSocket.use(compression({}));
+        //webSocket.use(compression({}));
         //app.use(express['static'](__dirname + '/../../client'));
 
         webSocket.on('connection', (socket) => {
-            let userId = socket.handshake.query.userId;
+            //let userId = socket.handshake.query.userId;
+
             let currentUser = {
                 id: socket.id,
-                userId: userId
+                userId: socket.id
             };
 
-            if (findIndex(users, currentUser.id) > -1) {
+
+
+            if (users.indexOf(currentUser.id) > -1) {
                 console.log('[INFO] User ID is already connected, kicking.');
                 socket.disconnect();
             }  /*else if (!validNick(currentUser.nick)) {
@@ -380,7 +383,10 @@ export class Network {
             });
 
             socket.on('disconnect', () => {
-                if (findIndex(users, currentUser.id) > -1) users.splice(findIndex(users, currentUser.id), 1);
+                if (users.indexOf(currentUser.id) > -1)
+                {
+                    users.splice(users.indexOf(currentUser.id), 1);
+                }
                 console.log('[INFO] User ' + currentUser.userId + ' disconnected!');
                 socket.broadcast.emit('userDisconnect', { userId: currentUser.userId });
             });
