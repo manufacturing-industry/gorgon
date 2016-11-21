@@ -9,7 +9,7 @@ Gorgon provides a server daemon, command line interface (CLI), and API that can 
 * Update: Initial Travis-ci support.  If the build shows as broke, don't worry - it 'should' run.
 
 ##System Requirements
-* Node JS v5.11 or greater
+* Node JS 6 or greater
 * Extra: System Build Tools (For Electron Apps - Run: npm run install-global)
 
 ##Installation via Git
