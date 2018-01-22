@@ -20,19 +20,19 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Services Running: 0
+                                Services Running: {{ serviceTotal }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Services Failing: 0
+                                Service Failures: {{ serviceFail }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Service Errors: 0
+                                Service Errors: {{ serviceError }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Service Warnings: 0
+                                Service Warnings: {{ serviceWarning }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Connected Nodes: 0
+                                Connected Nodes: {{ nodeTotal }}
                             </div>
                         </div>
                         <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
@@ -52,19 +52,19 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Component Total: 12
+                                Component Total: {{ connectStat.component }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                HTTP Total: 12
+                                HTTP Total: {{ connectStat.http }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                REST Total: 12
+                                REST Total: {{ connectStat.rest }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                API Total: 12
+                                API Total: {{ connectStat.api }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                TCP/IP Total: 12
+                                TCP/IP Total: {{ connectStat.tcp }}
                             </div>
                         </div>
                         <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
@@ -84,19 +84,19 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Total Sessions: 12
+                                Total Sessions: {{ sessionStat.total }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Active Sessions: 12
+                                Active Sessions: {{ sessionStat.active }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Failed Access Attempts: 12
+                                Failed Access Attempts: {{ sessionStat.failedAccess }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Session Errors: 12
+                                Session Errors: {{ sessionStat.errors }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Session Warnings: 12
+                                Session Warnings: {{ sessionStat.warnings }}
                             </div>
                         </div>
                         <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">
@@ -117,25 +117,25 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Memory Services: 12
+                                Memory Services: {{ storageStat.memory }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Mongo Services: 12
+                                Mongo Services: {{ storageStat.mongo }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                MySQL Services: 12
+                                MySQL Services: {{ storageStat.mysql }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                File Services: 12
+                                File Services: {{ storageStat.file }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Files Stored: 12
+                                Files Stored: {{ storageStat.fileStored }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Memory Used: 128Mb
+                                Memory Used: {{ storageStat.memoryUsed }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Disk Consumption: 12Mb
+                                Disk Consumption: {{ storageStat.diskUsed }}
                             </div>
                         </div>
                         <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">

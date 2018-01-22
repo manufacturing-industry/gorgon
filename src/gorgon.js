@@ -30,6 +30,12 @@ import colog from 'colog'
 global.Logger = new Logger();
 
 /**
+ * The global start time for the daemon process
+ * @type {Date}
+ */
+global.StartTime = new Date();
+
+/**
  * The global console class
  *
  * @type {object} The colog instance
@@ -37,10 +43,93 @@ global.Logger = new Logger();
 global.Console = colog;
 
 /**
+ * The daemon version
+ *
+ * @type {string}
+ */
+global.Version = '0.0.0';
+
+/**
  * The app root path
  * @type {string}
  */
 global.appRoot = path.resolve(__dirname);
+
+/**
+ * The total connected nodes
+ *
+ * @type {number}
+ */
+global.ConnectedNodes = 1;
+
+/**
+ * The total connected clients
+ *
+ * @type {number}
+ */
+global.ConnectedClients = 0;
+
+/**
+ *
+ * @type {number}
+ */
+global.ServiceTotal = 0;
+
+/**
+ *
+ * @type {number}
+ */
+global.ServiceFail = 0;
+
+/**
+ *
+ * @type {number}
+ */
+global.ServiceError = 0;
+
+/**
+ *
+ * @type {number}
+ */
+global.ServiceWarning = 0;
+
+/**
+ *
+ * @type {{component: number, http: number, rest: number, api: number, tcp: number}}
+ */
+global.connectStat = {
+    component: 0,
+    http: 0,
+    rest: 0,
+    api: 0,
+    tcp: 0,
+};
+
+/**
+ *
+ * @type {{total: number, active: number, failedAccess: number, errors: number, warnings: number}}
+ */
+global.sessionStat = {
+    total: 1,
+    active: 1,
+    failedAccess: 0,
+    errors: 0,
+    warnings: 0,
+};
+
+/**
+ *
+ * @type {{memory: number, mongo: number, mysql: number, file: number, fileStored: number, memoryUsed: number, diskUsed: number}}
+ */
+global.storageStat = {
+    memory: 0,
+    mongo: 0,
+    mysql: 0,
+    file: 0,
+    fileStored: 0,
+    memoryUsed: 0,
+    diskUsed: 0,
+};
 
 /**
  * Creates the status shorthand for displaying a status message in the console window
@@ -64,6 +153,30 @@ global.Console.status = (type, message)=>
             break;
     }
     return true;
+};
+
+/**
+ * Returns the up time of the current daemon
+ *
+ * @returns {{days: number, hours: number, minutes: number, seconds: number}}
+ */
+global.getUpTime = () => {
+    const cDate = new Date();
+    let seconds = Math.floor((cDate - (global.StartTime))/1000);
+    let minutes = Math.floor(seconds/60);
+    let hours = Math.floor(minutes/60);
+    let days = Math.floor(hours/24);
+
+    hours = hours-(days*24);
+    minutes = minutes-(days*24*60)-(hours*60);
+    seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+    return {
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+    }
 };
 
 /**
@@ -161,6 +274,7 @@ class Gorgon {
         global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
         this._motd();
         global.Console.log('Press ' + global.Console.color('cntrl+c', 'yellow') + ' to exit the server');
+        global.Version = this.GorgonConfig.data.version;
     }
 
     /**
@@ -179,5 +293,5 @@ class Gorgon {
 /*
  * Run the Gorgon Server
  */
-var GorgonServer = new Gorgon();
+const GorgonServer = new Gorgon();
 GorgonServer.initServer();

@@ -20,19 +20,19 @@
                         </div>
                         <div class="mdl-card__supporting-text mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Up-time: 1 Month, 10 Days, 4 Hours, 6 Min
+                                Up-time: {{ upTime.days }} Days, {{ upTime.hours }} Hours, {{ upTime.minutes }} Minutes, {{ upTime.seconds }} Seconds
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Hostname: 0
+                                Hostname:
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Connected Nodes: 0
+                                Connected Nodes: {{ nodeTotal }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Connected Clients: 0
+                                Connected Clients: {{ connectedClientTotal }}
                             </div>
                             <div class="mdl-cell mdl-cell--6-col mdl-grid">
-                                Version: v0.0.0
+                                Version: v{{ version }}
                             </div>
                         </div>
                         <div class="mdl-card__actions mdl-card--border mdl-color--grey-200 mdl-color-text--white-400">

@@ -14,8 +14,9 @@ import {Routes} from '../../component/routes'
 import {GorgonService} from '../index';
 import {StatusServiceConfig} from '../../config/config';
 import {Network} from '../../component/network'
+import moment from 'moment'
 
-var NetworkStack = new Network();
+const NetworkStack = new Network();
 
 /**
  * The status service
@@ -144,7 +145,7 @@ class StatusService extends GorgonService {
         console.log(req);
 
 
-        if (req.method == 'GET')
+        if (req.method === 'GET')
         {
 
         }
@@ -161,7 +162,7 @@ class StatusService extends GorgonService {
      */
     _pageInit(method, inboundType, req, res)
     {
-        if (inboundType != 'http' || method != '/' && req.method == 'GET')
+        if (inboundType !== 'http' || method !== '/' && req.method === 'GET')
         {
             global.Console.status('notice', 'Invalid Service Request in StatusService:_pageInit for Method: ' + req.method + ' - Inbound Type: ' + inboundType,
                 {
@@ -178,7 +179,23 @@ class StatusService extends GorgonService {
         }
 
         global.Console.status('info', 'Status Service Routed: ' + method + ' - Method: ' + req.method);
-        res.status(200).render('init.twig', { title: 'Gorgon Service Monitor', message: 'Gorgon Service Monitor'});
+
+        res.status(200).render('init.twig', {
+            title: 'Gorgon Service Monitor',
+            message: 'Gorgon Service Monitor',
+            upTime: global.getUpTime(),
+            version: global.Version,
+            nodeTotal: global.ConnectedNodes,
+            connectedClientTotal: global.ConnectedClients,
+            serviceTotal: global.ServiceTotal,
+            serviceFail: global.ServiceFail,
+            serviceError: global.ServiceError,
+            serviceWarning: global.ServiceWarning,
+            connectStat: global.connectStat,
+            sessionStat: global.sessionStat,
+            storageStat: global.storageStat,
+            lastCheck: moment().calendar()
+    });
     }
 
     /**
