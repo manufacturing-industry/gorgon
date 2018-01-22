@@ -1,7 +1,7 @@
 {
-    "minorVersion": 4,
+    "minorVersion": 5,
     "buildName": "Adamite",
-    "buildNumber": "111",
+    "buildNumber": "120",
     "buildType": "pre-alpha",
     "publicVersion": "0.1"
 }
