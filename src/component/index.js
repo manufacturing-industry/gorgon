@@ -7,7 +7,6 @@
  * @url https://github.com/manufacturing-industry
  */
 
-
 export class GorgonComponentRouter {
     constructor() {
 

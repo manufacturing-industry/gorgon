@@ -8,7 +8,6 @@
  */
 
 let instance = null;
-import _ from 'lodash';
 import moment from 'moment';
 import Middleware from './middleware';
 
@@ -17,15 +16,12 @@ import Middleware from './middleware';
  *
  * @note This powers the extensible internal API
  */
-export class Api
-{
+export class Api {
     /**
      * Constructs the class
      */
-    constructor()
-    {
-        if(!instance)
-        {
+    constructor() {
+        if (!instance) {
             /**
              * The middleware for the class
              * @type {Middleware}
@@ -72,10 +68,8 @@ export class Api
      * @param {function} node The function reference for the node
      * @returns {boolean} Returns true on completion and false on failure
      */
-    addApiNode(serviceId, namespace, node)
-    {
-        if (this._getNodePos(namespace) === false && this._isReservedNamespace(namespace) === false)
-        {
+    addApiNode(serviceId, namespace, node) {
+        if (this._getNodePos(namespace) === false && this._isReservedNamespace(namespace) === false) {
             this.api.push(node);
             this.apiMap.push(namespace);
             this.serviceIdMap.push(serviceId);
@@ -96,8 +90,7 @@ export class Api
      * @param {string} namespace The service namespace to locate
      * @returns {*} Returns the api node when found or false when no node was found
      */
-    getApiNode(namespace)
-    {
+    getApiNode(namespace) {
         let pos = this._getNodePos(namespace);
         if (pos > -1) return this.api[pos];
         return false;
@@ -111,14 +104,12 @@ export class Api
      * @param {*} data The data to be sent to the call
      * @returns {*} Returns the result of the call or false if the node did not exist
      */
-    callApiNode(namespace, method, data)
-    {
-        node = this.getApiNode(namespace);
-        if (node !== false)
-        {
+    callApiNode(namespace, method, data) {
+        const node = this.getApiNode(namespace);
+        if (node !== false) {
             let apiCall = new ApiCall(method, data);
             this.middleware.callChannel('PRE_API_CALL', apiCall);
-            data = apiCall.callApi(node, mehod);
+            data = apiCall.callApi(node, method);
             this.middleware.callChannel('POST_API_CALL', data);
             data.returned = moment();
             return data;
@@ -134,8 +125,7 @@ export class Api
      * @returns {boolean|number} Returns false if not found or the position of the service namespace in the stack
      * @private
      */
-    _getNodePos(namespace)
-    {
+    _getNodePos(namespace) {
         let pos = this.apiMap.indexOf(namespace);
         if (pos == -1) return false;
         return this.apiMap[pos];
@@ -148,8 +138,7 @@ export class Api
      * @returns {boolean} Returns true if the namespace exists false if it doesn't
      * @private
      */
-    _isReservedNamespace(namespace)
-    {
+    _isReservedNamespace(namespace) {
         return this.reserved.indexOf(namespace) > -1;
     }
 }
@@ -159,13 +148,11 @@ export class Api
  *
  * @note This is the packaged call and its related data
  */
-class ApiCall
-{
+class ApiCall {
     /**
      * Constructs the class
      */
-    constructor(method, data)
-    {
+    constructor(method, data) {
         /**
          * The method to be called
          * @var {function}
@@ -215,8 +202,7 @@ class ApiCall
      * @param {function} node The node to tbe called
      * @returns {*} Returns the ApiCall object
      */
-    callApi(node)
-    {
+    callApi(node) {
         node(this);
         this.updated = moment();
         return this;

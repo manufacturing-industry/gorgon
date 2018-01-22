@@ -23,8 +23,7 @@ export class Logger {
     /**
      * Constructs the class
      */
-    constructor()
-    {
+    constructor() {
         /**
          * Sets the file system property
          * @var {fs}
@@ -84,14 +83,12 @@ export class Logger {
      * @param {string} type The type for the log
      * @return {boolean} Returns true on completion and false on failure
      */
-    log(location, level, message, values, type)
-    {
+    log(location, level, message, values, type) {
         var logItem = new Log(location, level, message, values, type);
         var logValues = logItem.values == null || logItem.values == undefined ? null : JSON.stringify(logItem.values);
         var filename = logItem.created.format('YYYYMMDD') + '.log';
 
-        switch(logItem.type)
-        {
+        switch (logItem.type) {
             default:
                 filename = this.sanitize(logItem.type) + '-' + filename;
                 break;
@@ -118,8 +115,7 @@ export class Logger {
         /*
          * Append the log entry to the file
          */
-        this.fs.appendFile(this.GorgonConfig.storage.logs + filename, logEntry, 'utf8',  function (err)
-        {
+        this.fs.appendFile(this.GorgonConfig.storage.logs + filename, logEntry, 'utf8', function(err) {
             if (err) {
                 global.Console.status('error', 'Logger unable to write to log file - Error: ' + err);
                 return false;
@@ -143,8 +139,7 @@ class Log {
      * @param {*} values The values to include with the log
      * @param {string} type The type for the log
      */
-    constructor(location, level, message, values, type)
-    {
+    constructor(location, level, message, values, type) {
         /**
          * The location the log originated from
          * @type {string}

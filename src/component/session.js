@@ -14,8 +14,7 @@ export class Session {
     /**
      * Constructs the class
      */
-    constructor()
-    {
+    constructor() {
         this.topicMap = [];
         this.subscribers = [];
         this.subscriberMap = [];

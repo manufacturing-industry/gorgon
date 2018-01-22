@@ -18,13 +18,12 @@ import _ from 'lodash';
  * @note This means that you have 1 method assignable to a channel per service per middleware
  */
 export class Middleware {
-    constructor()
-    {
+    constructor() {
         this.data = [];
         this.serviceRegister = [];
         this.dataMap = [];
         this.channels = ['PRE_REQUEST', 'PRE_RESPONSE', 'PRE_API_CALL', 'POST_API_CALL'];
-        this.channels.forEach(function(value){
+        this.channels.forEach(function(value) {
             this.data.push([]);
             this.dataMap.push(value);
         }, this);
@@ -39,15 +38,12 @@ export class Middleware {
      * @param {function} method The method to be called with the object when a channel call is made
      * @returns {boolean}
      */
-    addMiddleware(channel, serviceNamespace, middleware, method)
-    {
+    addMiddleware(channel, serviceNamespace, middleware, method) {
         let pos = this._getChannelId(channel);
-        if (pos > -1)
-        {
+        if (pos > -1) {
             let middleware = this._getExistingMiddleware(channel[pos], serviceNamespace, middleware, method);
-            if (middleware === false)
-            {
-                this.channels[pos].push({ service: serviceNamespace, middleware: middleware, method: method });
+            if (middleware === false) {
+                this.channels[pos].push({service: serviceNamespace, middleware: middleware, method: method});
                 global.Logger.log('Middleware:addMiddleware', 200, 'A new middleware was added for Service Namespace: ' + serviceNamespace + ' on Channel: ' + channel);
                 return true;
             } else {
@@ -64,11 +60,9 @@ export class Middleware {
      * @param {string} serviceNamespace
      * @param {string} middleware
      */
-    removeMiddleware(channel, serviceNamespace, middleware)
-    {
+    removeMiddleware(channel, serviceNamespace, middleware) {
         let pos = this._getChannelId(channel);
-        if (pos > -1)
-        {
+        if (pos > -1) {
             /**
              * @todo Add Remove middleware code
              */
@@ -82,15 +76,12 @@ export class Middleware {
      * @param {*} data The object or data to be passed to the middleware
      * @returns {*|boolean} Returns the data from the middleware call for the data sent
      */
-    callChannel(channel, data)
-    {
+    callChannel(channel, data) {
         let pos = this._getChannelId(channel);
-        if (pos > -1)
-        {
+        if (pos > -1) {
             let middlewareList = this.channels[pos];
-            if (middlewareList instanceof Array)
-            {
-                middlewareList.foreach(function(value){
+            if (middlewareList instanceof Array) {
+                middlewareList.foreach(function(value) {
                     data = value.method(data);
                 });
             }
@@ -108,9 +99,8 @@ export class Middleware {
      * @returns {boolean|array} Returns false if channel doesn't exist or the channel datas array if it does
      * @private
      */
-    _getExistingMiddleware(channelObject, serviceNamespace, middleware)
-    {
-        let existing = _.find(channelObject, { 'serviceNamespace': serviceNamespace, 'middleware': middleware });
+    _getExistingMiddleware(channelObject, serviceNamespace, middleware) {
+        let existing = _.find(channelObject, {'serviceNamespace': serviceNamespace, 'middleware': middleware});
         if (existing != undefined) return false;
         return existing;
     }
@@ -122,8 +112,7 @@ export class Middleware {
      * @returns {number} Returns the index of the channel (-1 if channel does not exist)
      * @private
      */
-    _getChannelId(name)
-    {
+    _getChannelId(name) {
         return this.channels.indexOf(name.toUpper);
     }
 }

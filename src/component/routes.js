@@ -63,10 +63,8 @@ export class Routes {
      * @param {array} routes An array of route objects to be added to the router ({ inboundTypes: string, method: string, callback: function reference })
      * @returns {boolean}
      */
-    importRoutes(routes)
-    {
-        if (routes instanceof Object)
-        {
+    importRoutes(routes) {
+        if (routes instanceof Object) {
             for (var key in routes) {
                 if (routes.hasOwnProperty(key)) this.add(routes[key]['inboundTypes'], routes[key]['method'], routes[key]['callback']);
             }
@@ -84,13 +82,12 @@ export class Routes {
      * @param {string} method The method name
      * @param {string} callback The method callback
      */
-    add(inboundTypes, method, callback)
-    {
+    add(inboundTypes, method, callback) {
         this.routes.push(method);
         this.routeCallbacks.push(callback);
         var pos = this.routeCallbacks.length - 1;
 
-        inboundTypes.forEach(function(value){
+        inboundTypes.forEach(function(value) {
             if (this.inboundTypes.indexOf(value) > -1) this.permissionMap[value].push(pos);
             else console.log('ERROR - Invalid Permission Encountered in Service: [' + this.namespace + '] Method: [' + method + ']');
         }, this);
@@ -101,18 +98,14 @@ export class Routes {
      * @param {string} method The method name
      * @returns {boolean} Returns true on completion and false on failure
      */
-    remove(method)
-    {
+    remove(method) {
         let pos = this.routes.indexOf(method);
-        if (pos > -1)
-        {
+        if (pos > -1) {
             this.routeCallbacks[pos] = null;
             this.routes[pos] = null;
 
-            this.inboundTypes.forEach(function(value)
-            {
-                if (this.permissionMap[value] != undefined && this.permissionMap[value] instanceof Array)
-                {
+            this.inboundTypes.forEach(function(value) {
+                if (this.permissionMap[value] != undefined && this.permissionMap[value] instanceof Array) {
                     let keyPos = this.permissionMap[value].indexOf(pos);
                     if (keyPos > -1) this.permissionMap[value].splice(keyPos, 1);
                 }
@@ -130,13 +123,10 @@ export class Routes {
      * @param {*} payload The payload to be sent to the route
      * @returns {*|boolean} Returns the result of the call or false on failure of the call did not exist
      */
-    route(inboundType, method, payload)
-    {
+    route(inboundType, method, payload) {
         let pos = this.routes.indexOf(method);
-        if (pos > -1)
-        {
-            if (this.permissionMap[inboundType] != undefined && this.permissionMap[inboundType].length > 0 && this.permissionMap[inboundType].indexOf(pos) > -1)
-            {
+        if (pos > -1) {
+            if (this.permissionMap[inboundType] != undefined && this.permissionMap[inboundType].length > 0 && this.permissionMap[inboundType].indexOf(pos) > -1) {
                 return this.routeCallbacks[pos](method, inboundType, ...payload);
             }
         }

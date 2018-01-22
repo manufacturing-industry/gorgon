@@ -7,6 +7,11 @@
  * @url https://github.com/manufacturing-industry
  */
 
+/*
+ * Imports
+ */
+import GorgonStorage from '../storage/storage';
+
 /**
  * The Mongo Storage Driver
  */
@@ -17,6 +22,7 @@ export class MongoStorageDriver extends GorgonStorage
      */
     constructor()
     {
+        super();
         /**
          * The name for the storage driver
          *

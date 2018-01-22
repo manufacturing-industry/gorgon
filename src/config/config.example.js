@@ -11,8 +11,8 @@
  * Imports
  */
 import * as fs from 'fs';
-var json = fs.readFileSync('build/build.json');
-var buildData = json.length > 0 ? JSON.parse(json) : {};
+const json = fs.readFileSync('build/build.json');
+const buildData = json.length > 0 ? JSON.parse(json) : {};
 
 /**
  * The Gorgon config class

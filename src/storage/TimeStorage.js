@@ -19,13 +19,11 @@ import moment from 'moment';
  * @note The time storage driver can expire data based on a interval and a mode of expiring
  * @note Modes: Month, Week, Day, Hour, Min
  */
-class TimeStorageDriver extends MemoryStorageDriver
-{
+class TimeStorageDriver extends MemoryStorageDriver {
     /**
      * Constructs the class
      */
-    constructor(timeType, interval)
-    {
+    constructor(timeType, interval) {
         super();
 
         /**
@@ -99,8 +97,7 @@ class TimeStorageDriver extends MemoryStorageDriver
      *
      * @param record
      */
-    addRecord(record)
-    {
+    addRecord(record) {
         let createTime = moment();
         createTime = createTime.format('X');
         this.data.push(record);
@@ -113,8 +110,7 @@ class TimeStorageDriver extends MemoryStorageDriver
      *
      * @param {number} interval
      */
-    setCheckInterval(interval)
-    {
+    setCheckInterval(interval) {
         if (number != undefined && number > 0) {
             this.checkInterval = interval;
             return true;
@@ -128,11 +124,9 @@ class TimeStorageDriver extends MemoryStorageDriver
      * @private
      * @note Creates a interval that will clear expired records on a timed schedule
      */
-    _timedTrigger()
-    {
+    _timedTrigger() {
         var self = this;
-        setInterval(function()
-        {
+        setInterval(function() {
             self._clearExpired()
         }.bind(null, self), this._getOperationInterval());
     }
@@ -143,8 +137,7 @@ class TimeStorageDriver extends MemoryStorageDriver
      *
      * @return {boolean} Returns true on completion and false on error
      */
-    _clearExpired()
-    {
+    _clearExpired() {
 
         var currentTime = moment();
         currentTime = currentTime.format('X');
@@ -155,21 +148,17 @@ class TimeStorageDriver extends MemoryStorageDriver
         //console.log('Data map check - current time: ' + currentTime + ' - Cut Time: ' + cutTime);
 
         var removeList = [];
-        this.dataMap.forEach(function(value, index)
-        {
+        this.dataMap.forEach(function(value, index) {
             //console.log('Data map check: ' + index + ' - Time Type: ' + timeType + ' - Value: ' + value);
             //console.log('Item Time: ' + value);
-            if (value <= cutTime)
-            {
+            if (value <= cutTime) {
                 removeList.push(index);
                 console.log('[' + timeType + '] - we delete index: ' + index + ' cut time: ' + value + ' it was less than the cut time of: ' + cutTime);
             }
         });
 
-        if (removeList.length > 0)
-        {
-            for(let i=0; i < removeList.length; i++)
-            {
+        if (removeList.length > 0) {
+            for (let i = 0; i < removeList.length; i++) {
                 this.dataMap.splice(removeList[i], 1);
                 this.data.splice(removeList[i], 1);
             }
@@ -183,12 +172,10 @@ class TimeStorageDriver extends MemoryStorageDriver
      * @return {*}
      * @private
      */
-    _getExpireMax()
-    {
-        switch(this.timeType)
-        {
+    _getExpireMax() {
+        switch (this.timeType) {
             default:
-                    //console.log('Error: Invalid time type');
+                //console.log('Error: Invalid time type');
                 break;
             case 'month':
                 //console.log('Expire time - month');
@@ -215,11 +202,9 @@ class TimeStorageDriver extends MemoryStorageDriver
         return null;
     }
 
-    _getOperationInterval()
-    {
+    _getOperationInterval() {
         var interval = 60 * 60;
-        switch(this.timeType)
-        {
+        switch (this.timeType) {
             default:
                 break;
             case 'month':

@@ -22,8 +22,7 @@ export class GorgonContainerService {
     /**
      * Constructs the class
      */
-    constructor()
-    {
+    constructor() {
         this.containers = [];
         this.containerMap = [];
         this.errorHandler = new ErrorHandler('ContainerService', 'GorgonContainerService');
@@ -39,10 +38,8 @@ export class GorgonContainerService {
      * @param {object} service The service to tbe added
      * @returns {boolean} Returns true on completion and false on failure
      */
-    add(service)
-    {
-        if (service.namespace != null && service.namespace != '' && this.containerMap.indexOf(service.namespace) == -1)
-        {
+    add(service) {
+        if (service.namespace != null && service.namespace != '' && this.containerMap.indexOf(service.namespace) == -1) {
             this.containers.push(service);
             this.containerMap.push(service.namespace);
             return true;
@@ -56,10 +53,8 @@ export class GorgonContainerService {
      * @param {string} serviceNamespace The service namespace to be removed
      * @returns {boolean} Returns true on completion and false on failure
      */
-    remove(serviceNamespace)
-    {
-        if (this.containerMap.indexOf(serviceNamespace) > -1)
-        {
+    remove(serviceNamespace) {
+        if (this.containerMap.indexOf(serviceNamespace) > -1) {
             let pos = this.containerMap.indexOf(serviceNamespace);
             this.containers.splice(pos, 1);
             this.containerMap.splice(pos, 1);
@@ -74,8 +69,7 @@ export class GorgonContainerService {
      * @param {string} serviceNamespace The service namespace
      * @returns {*} Returns the service when located or false when not located
      */
-    get(serviceNamespace)
-    {
+    get (serviceNamespace) {
         if (this.containerMap.indexOf(serviceNamespace) > -1) return this.containers[this.containerMap.indexOf(serviceNamespace)];
         return false;
     }
@@ -86,13 +80,11 @@ export class GorgonContainerService {
  *
  * @note Provides the service, default properties/methods used for constructing containers
  */
-export class GorgonService
-{
+export class GorgonService {
     /**
      * Constructs the class
      */
-    constructor()
-    {
+    constructor() {
         /**
          * The service id for the service
          *
@@ -170,13 +162,10 @@ export class GorgonService
      * Sets the networking property via the inboundTypes and ports properties
      * @private
      */
-    _setNetworking()
-    {
-        if (this.inboundTypes instanceof Array && this.ports instanceof Array && this.inboundTypes.length == this.ports.length)
-        {
-            for(var i = 0; i < this.inboundTypes.length; i++)
-            {
-                this.networking.push({ name: this.inboundTypes[i], port: this.ports[i] })
+    _setNetworking() {
+        if (this.inboundTypes instanceof Array && this.ports instanceof Array && this.inboundTypes.length == this.ports.length) {
+            for (var i = 0; i < this.inboundTypes.length; i++) {
+                this.networking.push({name: this.inboundTypes[i], port: this.ports[i]})
             }
         } else {
             console.warn('GorgonService:_setNetworking - Missing or invalid networking for service ' + this.name);
@@ -188,8 +177,7 @@ export class GorgonService
      * @param {number} serviceId
      * @return {boolean} Returns true on completion
      */
-    setServiceId(serviceId)
-    {
+    setServiceId(serviceId) {
         this.serviceId = serviceId;
         return true;
     }
@@ -202,8 +190,7 @@ export class GorgonService
      * @param {string} type The type for the service request (http or rest)
      * @returns {null} Returns null when not implemented
      */
-    serviceRequest(req, res, type)
-    {
+    serviceRequest(req, res, type) {
         return null;
     }
 
@@ -213,10 +200,9 @@ export class GorgonService
      * @param {ApiCall} apiCall The ApiCall object
      * @returns {ApiCall} Returns the api call after setting error state and updating the returned timestamp
      */
-    apiRequest(apiCall)
-    {
+    apiRequest(apiCall) {
         apiCall.error = true;
-        apiCall.errors,push('API call handler not defined');
+        apiCall.errors, push('API call handler not defined');
         apiCall.returned = moment();
         return apiCall;
     }
@@ -227,8 +213,7 @@ export class GorgonService
      * @param {Object} socket The socket object to call
      * @returns {null} Returns null when not implemented
      */
-    setWebSocketEvents(socket)
-    {
+    setWebSocketEvents(socket) {
         return null;
     }
 }

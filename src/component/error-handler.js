@@ -32,8 +32,7 @@ import Logger from '../component/log';
  *
  * @note Error Handler for the system
  */
-export default class ErrorHandler
-{
+export default class ErrorHandler {
     /**
      * @var {number} The primary key pointer for the data
      */
@@ -112,8 +111,7 @@ export default class ErrorHandler
      * @param {string} service The name of the service (for reference)
      * @param {string} className The class name of the service (for reference)
      */
-    constructor(service, className)
-    {
+    constructor(service, className) {
         this.startTime = moment();
         this.startTime = this.startTime.format('X');
         this.service = service;
@@ -122,8 +120,7 @@ export default class ErrorHandler
         //console.log('Error handler mounted')
     }
 
-    add(level, location, message, data)
-    {
+    add(level, location, message, data) {
         this.primaryKeyPointer++;
         let error = new ErrorRecord(this.primaryKeyPointer, this.service, this.className, level, location, message, data);
         this.storage.month.addRecord(error);
@@ -143,8 +140,7 @@ export default class ErrorHandler
      *
      * @return {{levels: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, month: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, week: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, day: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, hour: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}, min: {100: number, 200: number, 250: number, 300: number, 400: number, 500: number, 550: number, 600: number}}}
      */
-    getStats()
-    {
+    getStats() {
         this._pollTotals();
 
         return {
@@ -157,10 +153,8 @@ export default class ErrorHandler
         }
     }
 
-    _incrementTotal(level)
-    {
-        if (this.levels.indexOf(level) > -1)
-        {
+    _incrementTotal(level) {
+        if (this.levels.indexOf(level) > -1) {
             this.totals[level] = parseFloat(this.totals[level]) + 1;
             return true;
         }
@@ -172,9 +166,8 @@ export default class ErrorHandler
      *
      * @private
      */
-    _pollTotals()
-    {
-        var storage = {};
+    _pollTotals() {
+        let storage = {};
 
         storage = this.storage.month;
         this.month = this._errorTotals(storage.data);
@@ -198,11 +191,11 @@ export default class ErrorHandler
      * @param {TimeStorageDriver} errors A time storage driver whos data is error storage
      */
     _errorTotals(errors) {
-        var totals = {
+        let totals = {
             100: 0, 200: 0, 250: 0, 300: 0, 400: 0, 500: 0, 550: 0, 600: 0
         };
 
-        errors.forEach(function (value, index) {
+        errors.forEach(function(value, index) {
             if (totals.hasOwnProperty(value.level)) totals[value.level]++;
         });
 
@@ -213,8 +206,7 @@ export default class ErrorHandler
 /**
  * The error record
  */
-class ErrorRecord
-{
+class ErrorRecord {
     /**
      * Constructs a new error record
      * @param {number} id The id for the record
@@ -225,8 +217,7 @@ class ErrorRecord
      * @param {string} message The message for the error
      * @param {object|array} data The data from the error
      */
-    constructor(id, service, className, level, location, message, data)
-    {
+    constructor(id, service, className, level, location, message, data) {
         this.id = id;
         this.service = service;
         this.className = className;
