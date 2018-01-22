@@ -1,11 +1,11 @@
 {
 	"name": "gorgon",
 	"appName": "Gorgon Server",
-	"version": "0.1.3",
+	"version": "0.1.5",
 	"description": "",
 	"main": "lib/gorgon.js",
 	"engines": {
-		"node": ">=5.11.0",
+		"node": ">=8.0.0",
 		"npm": "^3.0.0"
 	},
 	"directories": {
