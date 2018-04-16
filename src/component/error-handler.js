@@ -10,18 +10,9 @@
 /*
  * Imports
  */
-import _ from 'lodash'
-import {GorgonConfig} from '../config/config'
-import {Middleware} from './middleware'
-import {Api} from './api';
-import fs from 'fs';
-import path from 'path';
-import morgan from 'morgan';
 import moment from 'moment';
-import GorgonStorage from '../storage/storage';
 import MemoryStorageDriver from '../storage/mem';
 import TimeStorageDriver from '../storage/TimeStorage';
-import Logger from '../component/log';
 
 /*
  * Variables
@@ -167,9 +158,7 @@ export default class ErrorHandler {
      * @private
      */
     _pollTotals() {
-        let storage = {};
-
-        storage = this.storage.month;
+        let storage = this.storage.month;
         this.month = this._errorTotals(storage.data);
 
         storage = this.storage.week;

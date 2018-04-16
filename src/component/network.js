@@ -133,7 +133,7 @@ export class Network {
      * @return {boolean} Returns true on completion and false on failure
      */
     addService(service) {
-        if (this.activeServices.indexOf(service.namespace) == -1) {
+        if (this.activeServices.indexOf(service.namespace) === -1) {
             this.services.push(service);
             this.serviceMap.push(service.namespace);
             let serviceId = this.serviceMap.length - 1;
@@ -143,7 +143,7 @@ export class Network {
              * Add networking components
              */
             if (service.networking instanceof Array) {
-                for (var i = 0; i < service.networking.length; i++) this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
+                for (let i = 0; i < service.networking.length; i++) this.add(serviceId, service.namespace, service.networking[i].name, 'label', service.networking[i].port);
                 global.Logger.log('Network:addService', 200, 'Added services components: ' + service.name + ' for Service: ' + service.namespace + ' - ServiceId: ' + serviceId);
                 return true;
             }
@@ -174,8 +174,8 @@ export class Network {
      */
     add(serviceId, serviceNamespace, type, label, port, middleware) {
         let created = false;
-        if (this.portReservations.indexOf(port) == -1 || port == null || port == undefined) {
-            if (port == undefined || port == null) port = 0;
+        if (this.portReservations.indexOf(port) === -1 || port === null || port === undefined) {
+            if (port === undefined || port === null) port = 0;
             switch (type) {
                 default:
                     global.Logger.log('Network:add', 400, 'Unable to load component type of: ' + type + ' for Service: ' + serviceNamespace + ' - ServiceId: ' + serviceId);
@@ -242,7 +242,7 @@ export class Network {
      */
     _createHttpComponent(serviceId, namespace, port, middleware, isRest) {
         let setListener = true;
-        if (isRest == undefined) isRest = false;
+        if (isRest === undefined) isRest = false;
 
         let service = this.services[serviceId];
         let date = moment();
@@ -251,7 +251,7 @@ export class Network {
         /*
          * Configure Server
          */
-        var server = express();
+        let server = express();
         //server.use(compression({}));
         server.use(favicon(service.filePath + '/public/img/medusa.png'));
         server.use(bodyParser.json());
@@ -269,7 +269,7 @@ export class Network {
         server.set('view engine', 'twig');
         server.disable('etag');
 
-        var component = server.all('*', function(req, res) {
+        let component = server.all('*', function(req, res) {
             //Middleware.callChannel('PRE_REQUEST', req);
             //Middleware.callChannel('PRE_RESPONSE', res);
             NetworkStack.services[serviceId].serviceRequest(req, res, isRest === false ? 'http' : 'rest');
@@ -279,7 +279,7 @@ export class Network {
             setListener = false;
             let pos = this.portReservations.indexOf(port);
             let serviceNamespace = this.portReservationNamespace[pos];
-            if (serviceNamespace != namespace) {
+            if (serviceNamespace !== namespace) {
                 global.Logger.log('Network:_createHttpComponent', 400, 'Unable to create new http component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace,
                     {type: isRest === false ? 'http' : 'rest'});
                 return false;
@@ -289,7 +289,7 @@ export class Network {
         if (_.isFunction(middleware)) component.use(middleware);
 
         if (setListener) {
-            var listener = component.listen(port, function() {
+            let listener = component.listen(port, function() {
                 NetworkStack.addPortReservation(namespace, listener.address().port);
                 global.Console.status('info', 'Http Bound Type: ' + (isRest === false ? 'http' : 'rest') + ' - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
                 global.Logger.log('Network:_createHttpComponent', 200, 'Created new http component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port,
@@ -326,11 +326,11 @@ export class Network {
         }
 
         //create webSocket component
-        var server = express();
+        let server = express();
         //server.use(compression({}));
 
-        var httpServer = http.Server(server);
-        var webSocket = new SocketIO(httpServer);
+        let httpServer = http.Server(server);
+        let webSocket = new SocketIO(httpServer);
 
         let users = [];
         let sockets = {};
@@ -387,7 +387,7 @@ export class Network {
             });*/
         });
 
-        var listener = httpServer.listen(port, () => {
+        let listener = httpServer.listen(port, () => {
             NetworkStack.addPortReservation(namespace, listener.address().port);
             global.Console.status('info', 'Web Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
             global.Logger.log('Network:_createWebSocketComponent', 200, 'Created new web socket component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
@@ -413,14 +413,14 @@ export class Network {
             setListener = false;
             let pos = this.portReservations.indexOf(port);
             let serviceNamespace = this.portReservationNamespace[pos];
-            if (serviceNamespace != namespace) {
+            if (serviceNamespace !== namespace) {
                 global.Logger.log('Network:_createSocketComponent', 400, 'Unable to create new socket component - Port Reserved by another service. Attempted to mount: ' + namespace + ' / ServiceId: ' + serviceId + ' - Existing service assigned to port: ' + serviceNamespace,
                     {type: isRest === false ? 'http' : 'rest'});
                 return false;
             }
         }
 
-        var server = net.createServer((socket) => {
+        let server = net.createServer((socket) => {
             // 'connection' listener
             console.log('client connected');
             socket.on('end', () => {
@@ -437,9 +437,9 @@ export class Network {
         });
 
         if (setListener) {
-            var listener = server.listen(port, () => {
+            let listener = server.listen(port, () => {
                 NetworkStack.addPortReservation(namespace, listener.address().port);
-                global.Console.status('info', 'TCP/IP Socket Bound - Service: ' + namespace + ' - ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
+                global.Console.status('info', 'TCP/IP Socket Bound - Service: ' + namespace + ' - ' + (port === 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
                 global.Logger.log('Network:_createSocketComponent', 200, 'Created new TCP/IP socket component - Mounted: ' + namespace + ' / ServiceId: ' + serviceId + ' - listening on ' + (port == 0 ? 'Random ' : '') + 'Port: ' + listener.address().port);
             });
         }
@@ -502,6 +502,6 @@ export class Network {
  * The network stack singleton instance instantiation
  * @type {Network}
  */
-var NetworkStack = new Network();
+let NetworkStack = new Network();
 
 export default NetworkStack;

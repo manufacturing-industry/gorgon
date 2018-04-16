@@ -7,7 +7,7 @@
  * @url https://github.com/manufacturing-industry
  */
 
-import _ from 'lodash';
+import _find from 'lodash/find';
 
 /**
  * The middleware class
@@ -100,8 +100,8 @@ export class Middleware {
      * @private
      */
     _getExistingMiddleware(channelObject, serviceNamespace, middleware) {
-        let existing = _.find(channelObject, {'serviceNamespace': serviceNamespace, 'middleware': middleware});
-        if (existing != undefined) return false;
+        let existing = _find(channelObject, {'serviceNamespace': serviceNamespace, 'middleware': middleware});
+        if (existing !== undefined) return false;
         return existing;
     }
 

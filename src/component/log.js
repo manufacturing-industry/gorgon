@@ -84,9 +84,9 @@ export class Logger {
      * @return {boolean} Returns true on completion and false on failure
      */
     log(location, level, message, values, type) {
-        var logItem = new Log(location, level, message, values, type);
-        var logValues = logItem.values == null || logItem.values == undefined ? null : JSON.stringify(logItem.values);
-        var filename = logItem.created.format('YYYYMMDD') + '.log';
+        const logItem = new Log(location, level, message, values, type);
+        const logValues = logItem.values === null || logItem.values === undefined ? null : JSON.stringify(logItem.values);
+        let filename = logItem.created.format('YYYYMMDD') + '.log';
 
         switch (logItem.type) {
             default:
@@ -105,7 +105,7 @@ export class Logger {
         /*
          * Creates the log entry
          */
-        var logEntry = logItem.created.format() + ' ' + logItem.level + ' ' + logItem.location + ' [message=' + logItem.message + ']' + ' [values=' + logValues + ']' + os.EOL;
+        const logEntry = logItem.created.format() + ' ' + logItem.level + ' ' + logItem.location + ' [message=' + logItem.message + ']' + ' [values=' + logValues + ']' + os.EOL;
 
         /*
          * Check if the log directory exists - if it does not create it
@@ -150,7 +150,7 @@ class Log {
          * The level of the log (from levelKey)
          * @type {number}
          */
-        this.level = level == null || level == undefined ? 100 : level;
+        this.level = level === null || level === undefined ? 100 : level;
 
         /**
          * The message for the log
@@ -162,13 +162,13 @@ class Log {
          * The type for the log
          * @type {string}
          */
-        this.type = type == null || type == undefined ? 'sys' : type;
+        this.type = type === null || type === undefined ? 'sys' : type;
 
         /**
          * The values to include with the log
          * @type {*}
          */
-        this.values = values == null || values == undefined ? null : values;
+        this.values = values === null || values === undefined ? null : values;
 
         /*
          * Sets the api created date

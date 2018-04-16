@@ -15,7 +15,7 @@ import {GorgonConfig} from "./config/config";
 import {GorgonEnv} from "./config/env";
 import {GorgonContainerService} from './service/index';
 import {Logger} from './component/log'
-import _ from 'lodash'
+import _repeat from 'lodash/repeat'
 import colog from 'colog'
 
 /*
@@ -137,10 +137,8 @@ global.storageStat = {
  * @param {string} message The message to be displayed
  * @return {boolean} Returns true on completion
  */
-global.Console.status = (type, message)=>
-{
-    switch(type)
-    {
+global.Console.status = (type, message) => {
+    switch (type) {
         default:
         case 'info':
             global.Console.log('[' + global.Console.color('I', 'yellow') + '] ' + message);
@@ -162,14 +160,14 @@ global.Console.status = (type, message)=>
  */
 global.getUpTime = () => {
     const cDate = new Date();
-    let seconds = Math.floor((cDate - (global.StartTime))/1000);
-    let minutes = Math.floor(seconds/60);
-    let hours = Math.floor(minutes/60);
-    let days = Math.floor(hours/24);
+    let seconds = Math.floor((cDate - (global.StartTime)) / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    let days = Math.floor(hours / 24);
 
-    hours = hours-(days*24);
-    minutes = minutes-(days*24*60)-(hours*60);
-    seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+    hours = hours - (days * 24);
+    minutes = minutes - (days * 24 * 60) - (hours * 60);
+    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
 
     return {
         'days': days,
@@ -186,8 +184,7 @@ class Gorgon {
     /**
      * Constructs the class
      */
-    constructor()
-    {
+    constructor() {
         /**
          * The gorgon config for the server
          * @type {GorgonConfig}
@@ -229,30 +226,28 @@ class Gorgon {
     /**
      * Initializes the server and loads the configured services from the environment
      */
-    initServer()
-    {
+    initServer() {
         this._bootstrap();
         global.Console.log(this.separator2);
         global.Console.question('Loading Services');
         global.Console.log(this.separator2);
         this.Logger.log('Gorgon:initServer', 200, 'The server was started successfully');
 
-        this.GorgonEnv.service.forEach(function(value){
+        this.GorgonEnv.service.forEach(function(value) {
             let consoleWidth = 48;
             let loaded = this.GorgonContainerService.add(value.service);
-            if (loaded)
-            {
+            if (loaded) {
                 let logExtLen = 6;
                 let spaceLength = consoleWidth - logExtLen - value.namespace.length - 2;
-                let spaceChar = _.repeat('.', spaceLength);
+                let spaceChar = _repeat('.', spaceLength);
                 this.Logger.log('Gorgon:initServer', 200, 'Loaded service namespace: ' + value.namespace);
-                global.Console.log(value.namespace +' ' + spaceChar + ' [ ' + global.Console.color('OK', 'green') + ' ]');
+                global.Console.log(value.namespace + ' ' + spaceChar + ' [ ' + global.Console.color('OK', 'green') + ' ]');
             } else {
                 let logExtLen = 10;
                 let spaceLength = consoleWidth - logExtLen - value.namespace.length - 2;
-                let spaceChar = _.repeat('.', spaceLength);
+                let spaceChar = _repeat('.', spaceLength);
                 this.Logger.log('Gorgon:initServer', 400, 'Failed to load service with namespace: ' + value.namespace);
-                global.Console.log(value.namespace +' ' + spaceChar + ' [ ' + global.Console.color('FAILED', 'red') + ' ]');
+                global.Console.log(value.namespace + ' ' + spaceChar + ' [ ' + global.Console.color('FAILED', 'red') + ' ]');
             }
         }, this);
 
@@ -267,8 +262,7 @@ class Gorgon {
      *
      * @private
      */
-    _bootstrap()
-    {
+    _bootstrap() {
         global.Console.log(global.Console.color('Gorgon Server' + ' v' + this.GorgonConfig.data.version, 'green'));
         global.Console.log('Author: Ryan Rentfro <rrentfro at gmail dot com>');
         global.Console.log('Project: https://github.com/manufacturing-industry/gorgon');
@@ -282,8 +276,7 @@ class Gorgon {
      *
      * @private
      */
-    _motd()
-    {
+    _motd() {
         global.Console.log(this.separator1);
         global.Console.log(global.Console.color(this.GorgonConfig.data.motd, 'yellow'));
         global.Console.log(this.separator1);

@@ -65,7 +65,7 @@ export class Routes {
      */
     importRoutes(routes) {
         if (routes instanceof Object) {
-            for (var key in routes) {
+            for (let key in routes) {
                 if (routes.hasOwnProperty(key)) this.add(routes[key]['inboundTypes'], routes[key]['method'], routes[key]['callback']);
             }
             return true;
@@ -85,7 +85,7 @@ export class Routes {
     add(inboundTypes, method, callback) {
         this.routes.push(method);
         this.routeCallbacks.push(callback);
-        var pos = this.routeCallbacks.length - 1;
+        let pos = this.routeCallbacks.length - 1;
 
         inboundTypes.forEach(function(value) {
             if (this.inboundTypes.indexOf(value) > -1) this.permissionMap[value].push(pos);
@@ -105,7 +105,7 @@ export class Routes {
             this.routes[pos] = null;
 
             this.inboundTypes.forEach(function(value) {
-                if (this.permissionMap[value] != undefined && this.permissionMap[value] instanceof Array) {
+                if (this.permissionMap[value] !== undefined && this.permissionMap[value] instanceof Array) {
                     let keyPos = this.permissionMap[value].indexOf(pos);
                     if (keyPos > -1) this.permissionMap[value].splice(keyPos, 1);
                 }
@@ -126,7 +126,7 @@ export class Routes {
     route(inboundType, method, payload) {
         let pos = this.routes.indexOf(method);
         if (pos > -1) {
-            if (this.permissionMap[inboundType] != undefined && this.permissionMap[inboundType].length > 0 && this.permissionMap[inboundType].indexOf(pos) > -1) {
+            if (this.permissionMap[inboundType] !== undefined && this.permissionMap[inboundType].length > 0 && this.permissionMap[inboundType].indexOf(pos) > -1) {
                 return this.routeCallbacks[pos](method, inboundType, ...payload);
             }
         }
